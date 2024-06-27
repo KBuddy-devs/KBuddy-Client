@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Loginscreen extends StatefulWidget {
@@ -13,7 +12,7 @@ class _LoginscreenState extends State<Loginscreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("로그인 화면");
+        Text("로그인 화면"),
       ],
     );
   }
