@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kbuddy_flutter/common/const/colors.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -32,7 +33,7 @@ class BottomNavBar extends StatelessWidget {
         ),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: Colors.purple,
+      selectedItemColor: PRIMARY_COLOR,
       unselectedItemColor: Colors.grey,
       onTap: onItemTapped,
     );

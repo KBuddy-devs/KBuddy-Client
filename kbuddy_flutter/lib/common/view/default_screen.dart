@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../auth/view/community_screen.dart';
-import '../../auth/view/my_page_screen.dart';
-import '../../auth/view/search_screen.dart';
-import '../../auth/view/services_screen.dart';
+import '../../community/view/community_screen.dart';
+import '../../mypage/general/view/my_page_screen.dart';
+import '../../search/view/search_screen.dart';
+import '../../services/view/services_screen.dart';
 import '../../common/view/bottom_navbar.dart';
 import '../../common/view/top_appbar.dart';
 
