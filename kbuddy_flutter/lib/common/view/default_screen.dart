@@ -34,7 +34,7 @@ class _DefaultScreenState extends ConsumerState<DefaultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TopAppBar(),
+      appBar: TopAppBar(selectedIndex: _selectedIndex),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
