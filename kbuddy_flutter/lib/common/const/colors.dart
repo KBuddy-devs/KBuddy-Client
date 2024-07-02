@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 const PRIMARY_COLOR = Color(0xFF6952f9);
 const INDIGO_900 = Color(0xFF5a44d7);
 const INDIGO_1000 = Color(0xFF4937b3);
+const INDIGO_200 = Color(0xFFE2DEFD);
+const INDIGO_100 = Color(0xFFF6F4FE);
 
 // LIME
 const LIME_800 = Color(0xff30FF21);
@@ -14,6 +16,7 @@ const WHITE = Color(0xffffffff);
 const BLACK = Color(0x00000000);
 
 // LIGHTGRAY
+const LIGHTGRAY_100 = Color(0xffF4F4F4);
 const LIGHTGRAY_300 = Color(0xffD5D5D5);
 const LIGHTGRAY_400 = Color(0xffB1B1B1);
 const LIGHTGRAY_600 = Color(0xff6D6D6D);
