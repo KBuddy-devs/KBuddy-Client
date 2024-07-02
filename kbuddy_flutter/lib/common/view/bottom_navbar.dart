@@ -14,22 +14,22 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
+          icon: selectedIndex == 0 ? Image.asset('asset/bottom_nav_bar/search_active.png') : Image.asset('asset/bottom_nav_bar/search.png'),
           label: 'Search',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.people),
+          icon: selectedIndex == 1 ? Image.asset('asset/bottom_nav_bar/community_active.png') : Image.asset('asset/bottom_nav_bar/community.png'),
           label: 'Community',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'My Page',
+          icon: selectedIndex == 2 ? Image.asset('asset/bottom_nav_bar/services_active.png') : Image.asset('asset/bottom_nav_bar/services.png'),
+          label: 'Services',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Services',
+          icon: selectedIndex == 3 ? Image.asset('asset/bottom_nav_bar/mypage_active.png') : Image.asset('asset/bottom_nav_bar/mypage.png'),
+          label: 'My Page',
         ),
       ],
       currentIndex: selectedIndex,

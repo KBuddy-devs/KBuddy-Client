@@ -21,8 +21,8 @@ class _DefaultScreenState extends ConsumerState<DefaultScreen> {
   static const List<Widget> _widgetOptions = <Widget>[
     SearchScreen(),
     CommunityScreen(),
-    MyPageScreen(),
     ServicesScreen(),
+    MyPageScreen(),
   ];
 
   void _onItemTapped(int index) {
