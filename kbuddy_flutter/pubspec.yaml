@@ -45,6 +45,7 @@ flutter:
     - asset/sns_logo/
     - asset/bottom_nav_bar/
     - asset/alert/alarm/
+    - asset/images/
     # - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
