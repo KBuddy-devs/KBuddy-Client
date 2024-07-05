@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
+import 'package:kbuddy_flutter/common/component/custom_text_form_field.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
+import 'package:kbuddy_flutter/common/const/typo.dart';
 
+import '../../common/component/text.dart';
 import '../../common/utils/logger.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
@@ -28,8 +31,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Log in or sign up'),
-      ),
+          title:
+              FlexText(content: 'Log in or sign up', textStyle: title100Light)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -71,29 +74,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         SizedBox(
                                           height: 8,
                                         ),
-                                        TextField(
-                                          controller: emailController,
-                                          decoration: const InputDecoration(
-                                            labelText:
-                                                'Email address or user ID',
-                                            border: OutlineInputBorder(),
-                                          ),
-                                        ),
+                                        CustomTextFormField(
+                                            label: 'Email address or user ID',
+                                            controller: emailController),
                                         SizedBox(
                                           height: 16,
                                         ),
-                                        TextField(
+                                        CustomTextFormField(
+                                          label: 'Password',
                                           controller: passwordController,
-                                          decoration: InputDecoration(
-                                            labelText: 'Password',
-                                            border: const OutlineInputBorder(),
-                                            suffixIcon: IconButton(
-                                              icon:
-                                                  const Icon(Icons.visibility),
-                                              onPressed: () {},
-                                            ),
-                                          ),
-                                          obscureText: true,
+                                          isPassword: true,
                                         ),
                                         SizedBox(
                                           height: 16,
@@ -176,14 +166,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         SizedBox(
                                           height: 8,
                                         ),
-                                        TextField(
-                                          controller: createController,
-                                          decoration: InputDecoration(
-                                            labelText: 'Email',
-                                            border: const OutlineInputBorder(),
-                                          ),
-                                          obscureText: true,
-                                        ),
+                                        CustomTextFormField(
+                                            label: 'Email',
+                                            controller: createController),
                                         SizedBox(
                                           height: 16,
                                         ),
