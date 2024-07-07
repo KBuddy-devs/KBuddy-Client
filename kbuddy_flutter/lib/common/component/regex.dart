@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../utils/password_validator.dart';
 
-class PasswordValidationWidget extends StatelessWidget {
+class PasswordValidationWidget extends ConsumerWidget {
   final String password;
   final String confirmPassword;
   final bool isConfirm;
@@ -16,11 +16,11 @@ class PasswordValidationWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    if (isConfirm != false) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (isConfirm != false) ...[
           _buildValidationRow(
             context,
             "At least 12 characters.",
@@ -48,20 +48,15 @@ class PasswordValidationWidget extends StatelessWidget {
             "No more than 30 letters.",
             PasswordValidator.isMaxLength(password),
           ),
-        ],
-      );
-    } else{
-      return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildValidationRow(
-              context,
-              "Matching password.",
-              PasswordValidator.passwordsMatch(password, confirmPassword),
-            )
-          ]
-      );
-    }
+        ] else ...[
+          _buildValidationRow(
+            context,
+            "Matching password.",
+            PasswordValidator.passwordsMatch(password, confirmPassword),
+          )
+        ]
+      ],
+    );
   }
 
   Widget _buildValidationRow(BuildContext context, String text, bool isValid) {

@@ -7,12 +7,14 @@
     final TextEditingController controller;
     final bool isPassword;
     final FocusNode? focusNode;
+    final ValueChanged<String>? onChanged;
 
     const CustomTextFormField({
       required this.label,
       required this.controller,
       this.isPassword = false,
       this.focusNode,
+      this.onChanged,
       Key? key,
     }) : super(key: key);
 
@@ -26,6 +28,7 @@
       return TextField(
         controller: widget.controller,
         focusNode: widget.focusNode,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           labelText: widget.label,
           floatingLabelBehavior: FloatingLabelBehavior.never,

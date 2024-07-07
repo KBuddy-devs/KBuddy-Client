@@ -71,10 +71,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final signUpState = ref.watch(signUpProvider);
     final signUpViewModel = ref.read(signUpProvider.notifier);
+    //final signUpNotifier = ref.read(signUpProvider.notifier);
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -171,11 +173,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             /// Password
             FlexText(content: "Password", textStyle: title300Medium),
             CustomTextFormField(
-              label: 'Password',
-              controller: passwordController,
-              isPassword: true,
-              focusNode: passwordFocusNode,
-            ),
+                label: 'Password',
+                controller: passwordController,
+                isPassword: true,
+                focusNode: passwordFocusNode,
+                onChanged: (text) {
+                  signUpViewModel.updatePassword(text);
+                }),
             if (isPasswordFocused)
               PasswordValidationWidget(
                   password: passwordController.text,
@@ -189,6 +193,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               controller: passwordCheckController,
               isPassword: true,
               focusNode: confirmFocusNode,
+              onChanged: (text) {
+                signUpViewModel.updatePassword(text);
+              },
             ),
             if (isConfirmPasswordFocused)
               PasswordValidationWidget(
@@ -205,8 +212,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 style: TextStyle(fontSize: 16.0 * scaleHeight),
               ),
               style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.grey,
-                  backgroundColor: Colors.grey[200],
+                  foregroundColor:
+                      signUpState.isFormValid ? Colors.white : Colors.grey,
+                  backgroundColor: signUpState.isFormValid
+                      ? Colors.purple
+                      : Colors.grey[200],
                   minimumSize: Size(double.infinity, 50 * scaleHeight),
                   shape: RoundedRectangleBorder(
                       borderRadius:
