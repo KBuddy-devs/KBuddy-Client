@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kbuddy_flutter/common/component/regex.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
+import 'package:kbuddy_flutter/common/const/colors.dart';
 import 'package:kbuddy_flutter/common/const/typo.dart';
 
 import '../../common/component/custom_text_form_field.dart';
@@ -75,7 +76,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final signUpState = ref.watch(signUpProvider);
-    final signUpViewModel = ref.read(signUpProvider.notifier);
+    final signUpViewModel = ref.watch(signUpProvider.notifier);
     //final signUpNotifier = ref.read(signUpProvider.notifier);
 
     double screenWidth = MediaQuery.of(context).size.width;
@@ -125,6 +126,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'Last name',
               controller: lastNameController,
+              onChanged: (text){
+                signUpViewModel.updateUsername(text);
+              },
             ),
             SizedBox(height: spacingBaseUnit10),
 
@@ -159,6 +163,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'Email address',
               controller: emailController,
+              onChanged: (text){
+                signUpViewModel.updateEmail(text);
+              },
             ),
             SizedBox(height: spacingBaseUnit10),
 
@@ -194,7 +201,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               isPassword: true,
               focusNode: confirmFocusNode,
               onChanged: (text) {
-                signUpViewModel.updatePassword(text);
+                signUpViewModel.updateConfirmPassword(text);
               },
             ),
             if (isConfirmPasswordFocused)
@@ -213,10 +220,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               ),
               style: ElevatedButton.styleFrom(
                   foregroundColor:
-                      signUpState.isFormValid ? Colors.white : Colors.grey,
+                      signUpState.isFormValid ? Colors.white : LIGHTGRAY_400,
                   backgroundColor: signUpState.isFormValid
-                      ? Colors.purple
-                      : Colors.grey[200],
+                      ? PRIMARY_COLOR
+                      : LIGHTGRAY_100,
                   minimumSize: Size(double.infinity, 50 * scaleHeight),
                   shape: RoundedRectangleBorder(
                       borderRadius:
