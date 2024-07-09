@@ -9,6 +9,7 @@ import '../../common/component/text.dart';
 import '../../common/utils/logger.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
+import '../provider/signup_viewModel.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -22,17 +23,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController createController = TextEditingController();
 
+
   bool rememberMe = false;
   bool isLogin = true;
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(userMeProvider);
+    final signUpViewModel = ref.watch(signUpProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
-          title:
-              FlexText(content: 'Log in or sign up', textStyle: title100Light)),
+        title: FlexText(
+          content: 'Log in or sign up',
+          textStyle: title100Light,
+        ),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1.0),
+          child: Divider(
+            height: 1.0,
+            thickness: 2.0,
+            color: LIGHTGRAY_300,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -168,7 +182,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         ),
                                         CustomTextFormField(
                                             label: 'Email',
-                                            controller: createController),
+                                            controller: createController,
+                                            onChanged: (email){
+                                              signUpViewModel.updateEmail(email);
+                                            },),
                                         SizedBox(
                                           height: 16,
                                         ),
