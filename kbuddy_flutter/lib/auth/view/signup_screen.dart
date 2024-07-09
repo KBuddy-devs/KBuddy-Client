@@ -56,6 +56,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         isConfirmPasswordFocused = confirmFocusNode.hasFocus;
       });
     });
+    final signUpState = ref.read(signUpProvider);
+    if (signUpState.email != null) {
+      emailController.text = signUpState.email!;
+    }
   }
 
   @override
@@ -66,7 +70,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     emailController.dispose();
     userIdController.dispose();
     passwordController.dispose();
-    passwordController.dispose();
+    passwordCheckController.dispose();
     createController.dispose();
     nationController.dispose();
     super.dispose();

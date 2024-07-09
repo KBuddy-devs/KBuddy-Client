@@ -1,7 +1,11 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kbuddy_flutter/common/component/custom_text_form_field.dart';
+import 'package:kbuddy_flutter/common/component/text.dart';
+import 'package:kbuddy_flutter/common/const/colors.dart';
+import 'package:kbuddy_flutter/common/const/typo.dart';
+
+import '../provider/signup_viewModel.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -24,8 +28,14 @@ class ConfirmScreen extends ConsumerStatefulWidget {
 }
 
 class _ConfirmScreenState extends ConsumerState<ConfirmScreen> {
+
+  final TextEditingController codeEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final signUpState = ref.watch(signUpProvider);
+    final signUpViewModel = ref.watch(signUpProvider.notifier);
+
     double baseWidth = 360.0;
     double baseHeight = 640.0;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -36,58 +46,85 @@ class _ConfirmScreenState extends ConsumerState<ConfirmScreen> {
 
     double paddingHorizontal = 16.0 * scaleWidth;
     double paddingVertical = 16.0 * scaleHeight;
-    double spacingXxLarge = 144.0 *2* scaleHeight;
+    double spacingXxLarge = 144.0 * 1.8 * scaleHeight;
     double spacingBaseUnit10 = 10.0 * scaleHeight;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             // Implement back button functionality
           },
         ),
-        title: Text('Create account'),
+        title: FlexText(
+          content: 'Create account',
+          textStyle: title100Light,
+        ),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1.0),
+          child: Divider(
+            height: 1.0,
+            thickness: 2.0,
+            color: LIGHTGRAY_300,
+          ),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(paddingHorizontal),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             SizedBox(height: paddingVertical),
-            Text(
-              'Enter the confirmation code',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
+            FlexText(
+              content: 'Enter the confirmation code',
+              textStyle: title100Medium,
             ),
             SizedBox(height: paddingVertical),
-            Text(
-              'Confirmation sent. To continue, check your email & enter the 6-digit code we sent to xxx@gmail.com',
+            FlexText(
+              content:
+                  'Confirmation sent. To continue, check your email & enter the 6-digit code we sent to xxx@gmail.com',
+              textStyle: body100Light,
             ),
             SizedBox(height: paddingVertical),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Confirmation code',
-                border: OutlineInputBorder(),
-              ),
+            FlexText(
+              content: "Confirmation code",
+              textStyle: title300Medium,
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            //수정 예정
+            CustomTextFormField(
+              label: 'Enter the code',
+              controller: codeEditingController,
+              onChanged: (code){
+                signUpViewModel.updateCode(code);
+              },
             ),
             SizedBox(height: spacingXxLarge),
             ElevatedButton(
               onPressed: () {
-                // Implement next button functionality
+                // Implement sign up button functionality
               },
-              child: Text('Next'),
+              child: Text(
+                'Next',
+                style: TextStyle(fontSize: 16.0 * scaleHeight),
+              ),
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.grey, backgroundColor: Colors.grey[200], minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)
-                )// Disabled text color
+                  foregroundColor:
+                  signUpState.isCodeBoxValid ? Colors.white : LIGHTGRAY_400,
+                  backgroundColor: signUpState.isCodeBoxValid
+                      ? PRIMARY_COLOR
+                      : LIGHTGRAY_100,
+                  minimumSize: Size(double.infinity, 50 * scaleHeight),
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(8)) // Disabled text color
               ),
             ),
-            SizedBox(height: 16.0),
+            //SizedBox(height: 16.0),
             Center(
               child: TextButton(
                 onPressed: () {
