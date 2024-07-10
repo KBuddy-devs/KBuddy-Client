@@ -13,7 +13,7 @@ class Routes {
   static const splash = '/splash';
   static const login = '/login';
   static const resetPassword = '/resetPassword';
-  static const resetPasswordConfirm = '/resetPasswordConfirm';
+  static const resetPasswordConfirm = 'resetPasswordConfirm';
 
   static List<GoRoute> get routes => [
         GoRoute(
@@ -42,7 +42,7 @@ class Routes {
           builder: (context, state) => const ResetPasswordScreen(),
           routes: [
             GoRoute(
-              path: '/resetPasswordConfirm',
+              path: 'resetPasswordConfirm',
               name: 'resetPasswordConfirm',
               builder: (context, state) => const ResetPasswordConfirmScreen(),
             ),

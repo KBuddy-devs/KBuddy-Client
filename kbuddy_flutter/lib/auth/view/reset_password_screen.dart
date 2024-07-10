@@ -43,7 +43,11 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
     return Scaffold(
       backgroundColor: WHITE,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_outlined),
+        leading: GestureDetector(
+            onTap: () {
+              context.pop();
+            },
+            child: Icon(Icons.arrow_back_outlined)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
