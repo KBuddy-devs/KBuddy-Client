@@ -90,7 +90,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             label: 'Email address or user ID',
                                             controller: emailController),
                                         const SizedBox(
-
                                           height: 16,
                                         ),
                                         CustomTextFormField(
@@ -107,20 +106,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                                     ? PRIMARY_COLOR
                                                     : LIGHTGRAY_300,
                                             name: "Log in",
-                                            function: () {
-                                              state is UserModelLoading
-                                                  ? null
-                                                  : () async {
-                                                      final resp = await ref
-                                                          .read(userMeProvider
-                                                              .notifier)
-                                                          .login(
-                                                              emailController
-                                                                  .text,
-                                                              passwordController
-                                                                  .text);
-                                                      logger.i(resp);
-                                                    };
+                                            function: () async {
+                                              {
+                                                logger.i("1");
+                                                final resp = await ref
+                                                    .read(
+                                                        userMeProvider.notifier)
+                                                    .login(
+                                                        emailController.text,
+                                                        passwordController
+                                                            .text);
+                                              }
+                                              ;
                                             }),
                                         Row(
                                           mainAxisAlignment:
@@ -189,7 +186,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             label: 'Email',
                                             controller: createController),
                                         const SizedBox(
-
                                           height: 16,
                                         ),
                                         LoginButton(

@@ -31,36 +31,36 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   }
 
   // 임시 테스트용
-  Future<void> getMe() async {
-    // await storage.delete(key: ACCESS_TOKEN_KEY);
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    await Future.delayed(const Duration(seconds: 1));
-
-    logger.e('token : $accessToken');
-
-    if (accessToken == null) {
-      state = null;
-      return;
-    }
-    UserModel userTmp = UserModel(
-      id: 'test',
-      role: 'testname',
-    );
-    state = userTmp;
-  }
-
   // Future<void> getMe() async {
-  //   final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+  //   // await storage.delete(key: ACCESS_TOKEN_KEY);
   //   final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
   //   await Future.delayed(const Duration(seconds: 1));
 
-  //   if (refreshToken == null || accessToken == null) {
+  //   logger.e('token : $accessToken');
+
+  //   if (accessToken == null) {
   //     state = null;
   //     return;
   //   }
-  //   final res = await repo.getMe();
-  //   state = res;
+  //   UserModel userTmp = UserModel(
+  //     id: 'test',
+  //     role: 'testname',
+  //   );
+  //   state = userTmp;
   // }
+
+  Future<void> getMe() async {
+    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (refreshToken == null || accessToken == null) {
+      state = null;
+      return;
+    }
+    final res = await repo.getMe();
+    state = res;
+  }
 
   Future<UserModelBase> login(String id, String password) async {
     try {
@@ -71,11 +71,11 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       final resp = await authRepo.login(id: id, password: password);
       logger.e('response : $resp');
 
-      // await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
+      await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
       await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
       // 그리고 내 정보인 UserModel을 받아온다.
-      // final userRes = await repo.getMe();
-      // state = userRes;
+      final userRes = await repo.getMe();
+      state = userRes;
       // return userRes;
       UserModel userTmp = UserModel(id: id, role: id);
       logger.e('end');

@@ -19,17 +19,20 @@ class AuthRepository {
 
   AuthRepository({required this.baseurl, required this.dio});
 
-  Future<LoginResponse> login({required String id, required String password}) async {
+  Future<LoginResponse> login(
+      {required String id, required String password}) async {
     // final serialized = DataUtils.plainToBase64('$id:$password');
 
-    final resp = await dio.post('$baseurl/login',
+    final resp = await dio.post('$baseurl/user/auth/login',
         data: {
-          'userId': id,
+          'email': id,
           'password': password,
         },
         options: Options(headers: {
-          'Authorization': 'authorization',
-          'content-type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'User-Agent':
+              ' CourseMate/1.0.0 (Android 10; SM-G950U Build/R16NW) Flutter/2.2.1 Dart/2.13.0'
         }));
 
     logger.i(resp.data);
