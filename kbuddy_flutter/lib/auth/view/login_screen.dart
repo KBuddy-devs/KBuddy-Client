@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kbuddy_flutter/auth/provider/email_provider.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
@@ -9,6 +10,7 @@ import '../../common/component/custom_text_form_field.dart';
 import '../../common/utils/logger.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
+import '../provider/signup_viewModel.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -34,11 +36,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(userMeProvider);
+    final signUpViewModel = ref.watch(signUpProvider.notifier);
+    final emailState = ref.watch(emailProvider);
+    final emailNotifier = ref.watch(emailProvider.notifier);
 
+    void handleEmailVerification() async {
+      if (emailState.isLoading) return;
+
+      await emailNotifier.checkEmail(createController.text);
+      if (!emailState.isEmailExist) {
+        await emailNotifier.sendCode(createController.text);
+      } else {
+      }
+    }
     return Scaffold(
       appBar: AppBar(
-          title:
-              FlexText(content: 'Log in or sign up', textStyle: title100Light)),
+        title: FlexText(
+          content: 'Log in or sign up',
+          textStyle: title100Light,
+        ),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1.0),
+          child: Divider(
+            height: 1.0,
+            thickness: 2.0,
+            color: LIGHTGRAY_300,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -102,7 +127,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         ),
                                         LoginButton(
                                             color:
-                                                emailController.text.length > 0
+                                                emailController.text.isNotEmpty
                                                     ? PRIMARY_COLOR
                                                     : LIGHTGRAY_300,
                                             name: "Log in",
@@ -183,13 +208,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           height: 8,
                                         ),
                                         CustomTextFormField(
-                                            label: 'Email',
-                                            controller: createController),
+                                          label: 'Email',
+                                          controller: createController,
+                                          onChanged: (email) {
+                                            signUpViewModel.updateEmail(email);
+                                          },
+                                        ),
                                         const SizedBox(
                                           height: 16,
                                         ),
                                         LoginButton(
-                                            name: "Continue", function: () {})
+                                            name: "Continue",
+                                            function: () async {
+                                                if (emailState.isLoading) return;
+
+                                                await emailNotifier.checkEmail(createController.text);
+                                                if (!emailState.isEmailExist) {
+                                                  await emailNotifier.sendCode(createController.text);
+                                                } else {
+                                                }
+                                            },
+                                            // function: handleEmailVerification,
+                                        )
                                       ],
                                     ),
                                   )
