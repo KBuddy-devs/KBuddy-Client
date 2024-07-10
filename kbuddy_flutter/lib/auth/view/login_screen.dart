@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:kbuddy_flutter/auth/provider/email_provider.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
@@ -50,6 +51,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     }
     return Scaffold(
+      backgroundColor: WHITE,
       appBar: AppBar(
         title: FlexText(
           content: 'Log in or sign up',

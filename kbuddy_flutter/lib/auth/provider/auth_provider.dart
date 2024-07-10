@@ -33,6 +33,7 @@ class AuthProvider extends ChangeNotifier {
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
     print('redirect시작');
+    return '/resetPassword';
     final UserModelBase? user = ref.read(userMeProvider);
     print(user);
     // 로그인 화면의 상태인 경우

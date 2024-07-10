@@ -11,7 +11,6 @@ final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
   final storage = ref.watch(secureStroageProvider);
 
-  dio.interceptors.add(PrettyDioLogger());
   dio.interceptors.add(PrettyDioLogger(
       requestBody: true,
       requestHeader: true,
@@ -32,6 +31,7 @@ class Custominterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // TODO: implement onRequest
     print('[REQ] [${options.method}] ${options.uri}');
+
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
       final token = storage.read(key: ACCESS_TOKEN_KEY);
