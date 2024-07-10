@@ -14,22 +14,24 @@ import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
 import '../model/email_model.dart';
 
-class ResetPasswordScreen extends ConsumerStatefulWidget {
-  const ResetPasswordScreen({super.key});
+class ResetPasswordConfirmScreen extends ConsumerStatefulWidget {
+  const ResetPasswordConfirmScreen({super.key});
 
   @override
-  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
+  _ResetPasswordConfirmScreenState createState() =>
+      _ResetPasswordConfirmScreenState();
 }
 
-class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
-  final TextEditingController emailController = TextEditingController();
+class _ResetPasswordConfirmScreenState
+    extends ConsumerState<ResetPasswordConfirmScreen> {
+  final TextEditingController codeController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController createController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    emailController.addListener(() {
+    codeController.addListener(() {
       setState(() {});
     });
   }
@@ -70,7 +72,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                               SizedBox(height: 16),
                               CustomTextFormField2(
                                 label: 'Email',
-                                controller: emailController,
+                                controller: codeController,
                                 hintText: 'Enter your email here',
                               ),
                               SizedBox(height: 16),
@@ -81,18 +83,20 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                         'asset/images/email_confirmation.png')),
                               ),
                               CommonButton(
-                                  name: "Send link",
-                                  function: () async {
-                                    final email =
-                                        EmailModel(email: emailController.text);
-                                    await ref
-                                        .read(resetPasswordProvider.notifier)
-                                        .sendEmail(email);
-                                    if (state is EmailConfirmModel) {
-                                      // 페이지 이동
-                                    }
-                                  },
-                                  isActivate: emailController.text.isNotEmpty),
+                                name: "Send link",
+                                function: () async {
+                                  // final email =
+                                  //     EmailModel(email: emailController.text);
+                                  // await ref
+                                  //     .read(resetPasswordProvider.notifier)
+                                  //     .sendEmail(email);
+                                  if (state is EmailConfirmModel) {
+                                    // 페이지 이동
+                                  }
+                                },
+                                isActivate: true,
+                                // isActivate: emailController.text.isNotEmpty
+                              ),
                               // LoginButton(
                               //     name: "Send link",
                               //     color: INDIGO_900,

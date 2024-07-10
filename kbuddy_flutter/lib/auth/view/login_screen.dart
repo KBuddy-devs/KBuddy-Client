@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
 import 'package:kbuddy_flutter/common/component/custom_text_form_field.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
@@ -30,6 +31,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final state = ref.watch(userMeProvider);
 
     return Scaffold(
+      backgroundColor: WHITE,
       appBar: AppBar(
           title:
               FlexText(content: 'Log in or sign up', textStyle: title100Light)),
@@ -96,12 +98,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                               children: [
                                                 Checkbox(
                                                   value: rememberMe,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      rememberMe =
-                                                          value ?? false;
-                                                    });
-                                                  },
+                                                  onChanged: (value) => context
+                                                      .go('/resetPassword'),
+                                                  // onChanged: (value) {
+                                                  //   setState(() {
+                                                  //     rememberMe =
+                                                  //         value ?? false;
+                                                  //   });
+                                                  // },
                                                 ),
                                                 const Text('Remember me'),
                                               ],
