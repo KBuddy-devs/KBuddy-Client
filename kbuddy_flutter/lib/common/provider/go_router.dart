@@ -11,7 +11,7 @@ final routerProvider = Provider<GoRouter>(
 
     final provider = ref.read(authProvider);
     return GoRouter(
-      routes: routes,
+      routes: Routes.routes,
       initialLocation: '/splash',
       redirect: provider.redirectLogic,
       refreshListenable: provider,
