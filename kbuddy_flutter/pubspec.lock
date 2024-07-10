@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  auto_size_text:
+    dependency: transitive
+    description:
+      name: auto_size_text
+      sha256: "3f5261cd3fb5f2a9ab4e2fc3fba84fd9fcaac8821f20a1d4e71f557521b22599"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -121,6 +129,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  checkbox_grouped:
+    dependency: "direct main"
+    description:
+      name: checkbox_grouped
+      sha256: d7cb37e40c10b91cc3aa0d31611b8e4c5afe811185eab4774210022f0340731b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   checked_yaml:
     dependency: transitive
     description:
@@ -229,10 +245,18 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "11e40df547d418cc0c4900a9318b26304e665da6fa4755399a9ff9efd09034b5"
+      sha256: e17f6b3097b8c51b72c74c9f071a605c47bcc8893839bd66732457a5ebe73714
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.3+1"
+    version: "5.5.0+1"
+  dio_web_adapter:
+    dependency: transitive
+    description:
+      name: dio_web_adapter
+      sha256: "36c5b2d79eb17cdae41e974b7a8284fec631651d2a6f39a8a2ff22327e90aeac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -278,6 +302,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  flutter_regex:
+    dependency: "direct main"
+    description:
+      name: flutter_regex
+      sha256: "5245df26a5caec1c002fd44b2534f4f0263cfe930fa5888fc615d85299dfe778"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -348,10 +380,10 @@ packages:
     dependency: transitive
     description:
       name: freezed_annotation
-      sha256: f54946fdb1fa7b01f780841937b1a80783a20b393485f3f6cdf336fd6f4705f2
+      sha256: f9f6597ac43cc262fa7d7f2e65259a6060c23a560525d1f2631be374540f2a9b
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.4.3"
   frontend_server_client:
     dependency: transitive
     description:

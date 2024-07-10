@@ -11,7 +11,6 @@ final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
   final storage = ref.watch(secureStroageProvider);
 
-  // dio.interceptors.add(PrettyDioLogger());
   dio.interceptors.add(PrettyDioLogger(
       requestBody: true,
       requestHeader: true,
@@ -31,16 +30,17 @@ class Custominterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // TODO: implement onRequest
-    // print('[REQ] [${options.method}] ${options.uri}');
-    options.headers['Content-Type'] = 'application/json';
-    options.headers['Accept'] = 'application/json';
-    options.headers['User-Agent'] = 'testettefsfdsfwerrfewfasd';
+    print('[REQ] [${options.method}] ${options.uri}');
+
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
       final token = storage.read(key: ACCESS_TOKEN_KEY);
       // 헤더 토큰을 실제 값으로 넣어준다.
       options.headers.addAll({
-        'authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+        'User-Agent': 'asfd'
       });
     }
 
@@ -50,14 +50,15 @@ class Custominterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     // TODO: implement onResponse
-    // print('[RES] [${response.requestOptions.method} ${response.requestOptions.uri}]');
+    print(
+        '[RES] [${response.requestOptions.method} ${response.requestOptions.uri}]');
     super.onResponse(response, handler);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     // TODO: implement onError
-    // print('[RES] [${err.requestOptions.method} ${err.requestOptions.uri}]');
+    print('[RES] [${err.requestOptions.method} ${err.requestOptions.uri}]');
 
     final refreshtoken = await storage.read(key: REFRESH_TOKEN_KEY);
     if (refreshtoken == null) return handler.reject(err);
