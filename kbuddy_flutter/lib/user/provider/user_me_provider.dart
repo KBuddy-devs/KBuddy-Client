@@ -9,12 +9,14 @@ import '../../common/utils/logger.dart';
 import '../model/user_model.dart';
 import '../repository/user_me_repository.dart';
 
-final userMeProvider = StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
+final userMeProvider =
+    StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
   final userMeRepository = ref.watch(userMeRepositoryProvider);
   final storage = ref.watch(secureStroageProvider);
   final authRepository = ref.watch(authRepositoryProvider);
 
-  return UserMeStateNotifier(repo: userMeRepository, storage: storage, authRepo: authRepository);
+  return UserMeStateNotifier(
+      repo: userMeRepository, storage: storage, authRepo: authRepository);
 });
 
 class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
@@ -22,7 +24,9 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   final FlutterSecureStorage storage;
   final AuthRepository authRepo;
 
-  UserMeStateNotifier({required this.repo, required this.storage, required this.authRepo}) : super(UserModelLoading()) {
+  UserMeStateNotifier(
+      {required this.repo, required this.storage, required this.authRepo})
+      : super(UserModelLoading()) {
     getMe();
   }
 
@@ -38,7 +42,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       state = null;
       return;
     }
-    UserModel userTmp = UserModel(id: 'test', username: 'testname');
+    UserModel userTmp = UserModel(
+      id: 'test',
+      role: 'testname',
+    );
     state = userTmp;
   }
 
@@ -70,7 +77,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       // final userRes = await repo.getMe();
       // state = userRes;
       // return userRes;
-      UserModel userTmp = UserModel(id: id, username: id);
+      UserModel userTmp = UserModel(id: id, role: id);
       logger.e('end');
       state = userTmp;
       return userTmp;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
-import 'package:kbuddy_flutter/common/component/custom_text_form_field.dart';
+import 'package:kbuddy_flutter/common/component/text.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
 import 'package:kbuddy_flutter/common/const/typo.dart';
 
-import '../../common/component/text.dart';
+import '../../common/component/custom_text_form_field.dart';
 import '../../common/utils/logger.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
@@ -26,6 +26,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   bool rememberMe = false;
   bool isLogin = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +71,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         child: Column(
                           children: [
                             Container(
-                              color: isLogin ? INDIGO_200 : LIGHTGRAY_100,
+                              decoration: BoxDecoration(
+                                  color: isLogin ? INDIGO_200 : LIGHTGRAY_100,
+                                  border: const Border(
+                                      bottom: BorderSide(
+                                          color: PRIMARY_COLOR, width: 1.0))),
                               child: Row(
                                 children: [
                                   Checkbox(
@@ -75,23 +85,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           isLogin = !isLogin;
                                         });
                                       }),
-                                  Text("Log in"),
+                                  FlexText(
+                                    content: "Log in",
+                                    textStyle: title200Medium,
+                                  ),
                                 ],
                               ),
                             ),
                             isLogin
-                                ? Container(
-                                    child: Padding(
-                                    padding: EdgeInsets.all(8.0),
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         CustomTextFormField(
                                             label: 'Email address or user ID',
                                             controller: emailController),
-                                        SizedBox(
+                                        const SizedBox(
+
                                           height: 16,
                                         ),
                                         CustomTextFormField(
@@ -99,38 +112,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           controller: passwordController,
                                           isPassword: true,
                                         ),
-                                        SizedBox(
-                                          height: 16,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Checkbox(
-                                                  value: rememberMe,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      rememberMe =
-                                                          value ?? false;
-                                                    });
-                                                  },
-                                                ),
-                                                const Text('Remember me'),
-                                              ],
-                                            ),
-                                            TextButton(
-                                              onPressed: () {},
-                                              child: const Text(
-                                                  'Forgot password?'),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 16,
+                                        const SizedBox(
+                                          height: 24,
                                         ),
                                         LoginButton(
+                                            color:
+                                                emailController.text.length > 0
+                                                    ? PRIMARY_COLOR
+                                                    : LIGHTGRAY_300,
                                             name: "Log in",
                                             function: () {
                                               state is UserModelLoading
@@ -147,17 +136,45 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                                       logger.i(resp);
                                                     };
                                             }),
-                                        SizedBox(
-                                          height: 8,
-                                        )
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Row(
+                                              children: [
+                                                // Checkbox(
+                                                //   value: rememberMe,
+                                                //   onChanged: (value) {
+                                                //     setState(() {
+                                                //       rememberMe =
+                                                //           value ?? false;
+                                                //     });
+                                                //   },
+                                                // ),
+                                                //Text('Remember me'),
+                                              ],
+                                            ),
+                                            TextButton(
+                                              onPressed: () {},
+                                              child: FlexText(
+                                                content: 'Forgot password?',
+                                                textStyle: btn200Lined,
+                                                fontColor: INDIGO_900,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                  ))
-                                : SizedBox(
+                                  )
+                                : const SizedBox(
                                     height: 0,
                                   ),
                             Container(
                               decoration: BoxDecoration(
+                                  border: const Border(
+                                      top: BorderSide(
+                                          color: PRIMARY_COLOR, width: 1.0)),
                                   color: !isLogin ? INDIGO_200 : LIGHTGRAY_100),
                               child: Row(
                                 children: [
@@ -168,7 +185,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           isLogin = !isLogin;
                                         });
                                       }),
-                                  Text("Create accout")
+                                  FlexText(
+                                      content: "Create accout",
+                                      textStyle: title200Medium)
                                 ],
                               ),
                             ),
@@ -177,7 +196,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         CustomTextFormField(
@@ -186,7 +205,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             onChanged: (email){
                                               signUpViewModel.updateEmail(email);
                                             },),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 16,
                                         ),
                                         LoginButton(
@@ -194,7 +213,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       ],
                                     ),
                                   )
-                                : SizedBox(
+                                : const SizedBox(
                                     height: 0,
                                   )
                           ],
@@ -205,27 +224,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     LoginButton(
                         image: Image.asset('asset/icons/KakaoTalk_logo.png'),
                         name: "Continue with KaKao Talk",
+                        isImage: true,
                         color: Colors.white,
                         function: () {
                           logger.i("kakao");
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
                     LoginButton(
                         image: Image.asset('asset/icons/Google_G_logo.png'),
                         name: "Continue with Google",
+                        isImage: true,
                         color: Colors.white,
                         function: () {
                           logger.i("Google");
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
                     LoginButton(
                         image: Image.asset('asset/icons/Apple_logo_grey.png'),
                         name: "Continue with Apple",
                         color: Colors.white,
+                        isImage: true,
                         function: () {
                           logger.i("Apple");
                         }),
