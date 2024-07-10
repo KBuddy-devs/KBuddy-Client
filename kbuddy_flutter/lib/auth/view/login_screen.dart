@@ -37,8 +37,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Log in or sign up'),
-      ),
+          title:
+              FlexText(content: 'Log in or sign up', textStyle: title100Light)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -90,20 +90,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             label: 'Email address or user ID',
                                             controller: emailController),
                                         const SizedBox(
+
                                           height: 16,
                                         ),
-                                        TextField(
+                                        CustomTextFormField(
+                                          label: 'Password',
                                           controller: passwordController,
-                                          decoration: InputDecoration(
-                                            labelText: 'Password',
-                                            border: const OutlineInputBorder(),
-                                            suffixIcon: IconButton(
-                                              icon:
-                                                  const Icon(Icons.visibility),
-                                              onPressed: () {},
-                                            ),
-                                          ),
-                                          obscureText: true,
+                                          isPassword: true,
                                         ),
                                         const SizedBox(
                                           height: 24,
@@ -196,6 +189,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             label: 'Email',
                                             controller: createController),
                                         const SizedBox(
+
                                           height: 16,
                                         ),
                                         LoginButton(
