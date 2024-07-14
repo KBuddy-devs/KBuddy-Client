@@ -76,7 +76,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final signUpState = ref.watch(signUpProvider);
@@ -121,6 +120,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'First name',
               controller: firstNameController,
+              onChanged: (text) {
+                signUpViewModel.updateFirstName(text);
+              },
             ),
             SizedBox(height: spacingBaseUnit10),
 
@@ -130,8 +132,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'Last name',
               controller: lastNameController,
-              onChanged: (text){
-                signUpViewModel.updateUsername(text);
+              onChanged: (text) {
+                signUpViewModel.updateLastName(text);
               },
             ),
             SizedBox(height: spacingBaseUnit10),
@@ -167,7 +169,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'Email address',
               controller: emailController,
-              onChanged: (text){
+              onChanged: (text) {
                 signUpViewModel.updateEmail(text);
               },
             ),
@@ -178,6 +180,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'User ID',
               controller: userIdController,
+              onChanged: (text) {
+                signUpViewModel.updateUsername(text);
+              },
             ),
             SizedBox(height: spacingBaseUnit10),
 
@@ -215,9 +220,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   isConfirm: false),
             SizedBox(height: spacingBaseUnit10 * 2),
             ElevatedButton(
-              onPressed: () {
-                // Implement sign up button functionality
-              },
+              onPressed: signUpState.isFormValid ? () {
+                signUpViewModel.signUp();
+              } : null,
               child: Text(
                 'Sign up',
                 style: TextStyle(fontSize: 16.0 * scaleHeight),
@@ -225,9 +230,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               style: ElevatedButton.styleFrom(
                   foregroundColor:
                       signUpState.isFormValid ? Colors.white : LIGHTGRAY_400,
-                  backgroundColor: signUpState.isFormValid
-                      ? PRIMARY_COLOR
-                      : LIGHTGRAY_100,
+                  backgroundColor:
+                      signUpState.isFormValid ? PRIMARY_COLOR : LIGHTGRAY_100,
                   minimumSize: Size(double.infinity, 50 * scaleHeight),
                   shape: RoundedRectangleBorder(
                       borderRadius:
