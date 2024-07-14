@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:kbuddy_flutter/auth/provider/email_provider.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
@@ -47,9 +48,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       await emailNotifier.checkEmail(createController.text);
       if (!emailState.isEmailExist) {
         await emailNotifier.sendCode(createController.text);
-      } else {
-      }
+      } else {}
     }
+
     return Scaffold(
       backgroundColor: WHITE,
       appBar: AppBar(
@@ -220,17 +221,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           height: 16,
                                         ),
                                         LoginButton(
-                                            name: "Continue",
-                                            function: () async {
-                                                if (emailState.isLoading) return;
-
-                                                await emailNotifier.checkEmail(createController.text);
-                                                if (!emailState.isEmailExist) {
-                                                  await emailNotifier.sendCode(createController.text);
-                                                } else {
-                                                }
-                                            },
-                                            // function: handleEmailVerification,
+                                          name: "Continue",
+                                          function: () async {
+                                            if (emailState.isLoading) return;
+                                            await emailNotifier.checkEmail(
+                                                createController.text);
+                                            if (!emailState.isEmailExist) {
+                                              await emailNotifier.sendCode(
+                                                  createController.text);
+                                              if (context.mounted) {
+                                                print('코드: ${emailState.verificationCode}');
+                                                context.go('/confirm');
+                                              }
+                                            } else {}
+                                          },
+                                          // function: handleEmailVerification,
                                         )
                                       ],
                                     ),

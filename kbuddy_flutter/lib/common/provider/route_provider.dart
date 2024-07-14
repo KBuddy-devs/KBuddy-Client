@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/auth/view/login_screen.dart';
 import 'package:kbuddy_flutter/auth/view/reset_password_screen.dart';
+import 'package:kbuddy_flutter/auth/view/signup_screen.dart';
 
+import '../../auth/view/confirm_screen.dart';
 import '../../auth/view/reset_password_confirm_screen.dart';
 import '../../auth/view/splash_screen.dart';
 import '../../community/view/community_screen.dart';
@@ -38,4 +40,13 @@ List<GoRoute> get routes => [
         name: 'resetPasswordConfirm',
         builder: (context, state) => const ResetPasswordConfirmScreen(),
       ),
+      GoRoute(
+        path: '/confirm',
+        name: 'confirm',
+        builder: (context, state) => const ConfirmScreen(),
+      ),
+      GoRoute(
+          path: '/signup',
+          name: 'signup',
+          builder: (context, state) => const SignUpScreen())
     ];

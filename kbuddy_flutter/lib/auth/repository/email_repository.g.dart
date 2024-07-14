@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_me_repository.dart';
+part of 'email_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'user_me_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _UserMeRepository implements UserMeRepository {
-  _UserMeRepository(
+class _EmailRepository implements EmailRepository {
+  _EmailRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -19,21 +19,22 @@ class _UserMeRepository implements UserMeRepository {
   String? baseUrl;
 
   @override
-  Future<UserModel> getMe() async {
+  Future<DefaultResponseModel<bool>> checkEmailExists(
+      {required Map<String, dynamic> email}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'accessToken': 'true'};
-    _headers.removeWhere((k, v) => v == null);
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<UserModel>(Options(
-      method: 'GET',
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(email);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DefaultResponseModel<bool>>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/user',
+              '/user/auth/email/check',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -42,7 +43,39 @@ class _UserMeRepository implements UserMeRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = UserModel.fromJson(_result.data!);
+    final value = DefaultResponseModel<bool>.fromJson(
+      _result.data!,
+      (json) => json as bool,
+    );
+    return value;
+  }
+
+  @override
+  Future<CodeResponseModel> sendVerificationCode(
+      {required Map<String, dynamic> email}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(email);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<CodeResponseModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/auth/email/send',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CodeResponseModel.fromJson(_result.data!);
     return value;
   }
 
