@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kbuddy_flutter/auth/model/email_model.dart';
 import 'package:kbuddy_flutter/auth/repository/email_repository.dart';

@@ -1,15 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kbuddy_flutter/community/view/community_screen.dart';
-import 'package:kbuddy_flutter/common/view/default_screen.dart';
 
 import '../../common/utils/logger.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
-import '../view/login_screen.dart';
-import '../view/splash_screen.dart';
 
 final authProvider = ChangeNotifierProvider((ref) {
   return AuthProvider(ref: ref);
