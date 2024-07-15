@@ -12,7 +12,9 @@ class _SignupRepository implements SignupRepository {
   _SignupRepository(
     this._dio, {
     this.baseUrl,
-  });
+  }) {
+    baseUrl ??= 'https://api.bnbong.xyz/api/v1';
+  }
 
   final Dio _dio;
 

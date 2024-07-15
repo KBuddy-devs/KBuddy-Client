@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/common/component/regex.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
@@ -42,6 +43,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final FocusNode confirmFocusNode = FocusNode();
   bool isPasswordFocused = false;
   bool isConfirmPasswordFocused = false;
+
+  String? selectedGender;
 
   @override
   void initState() {
@@ -174,7 +177,51 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               },
             ),
             SizedBox(height: spacingBaseUnit10),
-
+            /// Gender
+            FlexText(content: "Gender", textStyle: title300Medium),
+            SizedBox(height: spacingBaseUnit10 / 2),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedGender = 'Male';
+                      });
+                      signUpViewModel.updateSex('M');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: selectedGender == 'Male' ? Colors.white : PRIMARY_COLOR, backgroundColor: selectedGender == 'Male' ? PRIMARY_COLOR : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(color: PRIMARY_COLOR),
+                      ),
+                    ),
+                    child: Text('Male'),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedGender = 'Female';
+                      });
+                      signUpViewModel.updateSex('F');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: selectedGender == 'Female' ? Colors.white : PRIMARY_COLOR, backgroundColor: selectedGender == 'Female' ? PRIMARY_COLOR : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(color: PRIMARY_COLOR),
+                      ),
+                    ),
+                    child: Text('Female'),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: spacingBaseUnit10),
             /// User ID
             FlexText(content: "User ID", textStyle: title300Medium),
             CustomTextFormField(
@@ -222,6 +269,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             ElevatedButton(
               onPressed: signUpState.isFormValid ? () {
                 signUpViewModel.signUp();
+                context.go('/');
               } : null,
               child: Text(
                 'Sign up',

@@ -2,40 +2,22 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kbuddy_flutter/auth/repository/signup_repository.dart';
 
+import '../../common/utils/logger.dart';
 import '../../common/utils/password_validator.dart';
 import '../../user/model/user_model.dart';
 
 const List<String> countryList = [
-  'United States',
-  'United Kingdom',
-  'Canada',
-  'Australia',
-  'New Zealand',
-  'Ireland',
-  'China',
-  'Japan',
-  'India',
-  'South Africa',
-  'Singapore',
-  'Germany',
-  'France',
-  'Italy',
-  'Spain',
-  'Russia',
-  'Brazil',
-  'Mexico',
-  'South Korea',
-  'Ukraine',
-  'Netherlands',
-  'Sweden',
-  'Switzerland',
-  'Poland',
-  'Turkey',
-  'Egypt',
-  'Israel',
-  'Saudi Arabia',
-  'United Arab Emirates',
-  'Thailand'
+  'USA',
+  'UK',
+  'CANADA',
+  'CHINA',
+  'JAPAN',
+  'GERMANY',
+  'FRANCE',
+  'ITALY',
+  'SPAIN',
+  'RUSSIA',
+  'SOUTH KOREA',
 ];
 
 // 상태 모음
@@ -105,7 +87,7 @@ class SignUpState {
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isPasswordValid: isPasswordValid ?? this.isPasswordValid,
       isConfirmPasswordValid:
-          isConfirmPasswordValid ?? this.isConfirmPasswordValid,
+      isConfirmPasswordValid ?? this.isConfirmPasswordValid,
       isFormValid: isFormValid ?? this.isFormValid,
       isCodeBoxValid: isCodeBoxValid ?? this.isCodeBoxValid,
       isCodeValid: isCodeValid ?? this.isCodeValid,
@@ -117,15 +99,14 @@ class SignUpState {
 // 상태에 연관된 메서드 모음
 // 이 클래스 에서는 상태를 인자로 가진다.
 class SignUpViewModel extends StateNotifier<SignUpState> {
-  SignUpViewModel(super.state) {
-    final dio = Dio();
-    _signupApi = SignupRepository(dio);
-  }
+  final SignupRepository _signupApi;
+
+  SignUpViewModel(SignUpState state, this._signupApi) : super(state);
 
   // Dio -> _signupApi 초기화 해야 함.
   // 생성자 내부에서 진행 -> 변수 즉시 초기화 불가.
   // 따라서 late 사용.
-  late SignupRepository _signupApi;
+
 
   //SignUpViewModel() : super(SignUpState());
 
@@ -216,20 +197,29 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
 
   Future<void> signUp() async {
     if (state.isFormValid) {
+      final requestBody = {
+        'email': state.email!,
+        'password': state.password!,
+        'userId': state.username!,
+        'firstName': state.firstName,
+        'lastName': state.lastName,
+        'country': state.selectedCountry!,
+        'sex': state.sex,
+      };
+      logger.i('requestBody $requestBody');
       try {
-        final response = await _signupApi.signUp(body: {
-          'email': state.email!,
-          'password': state.password!,
-          'userId': state.username!,
-          'firstName': state.firstName,
-          'lastName': state.lastName,
-          'country': state.selectedCountry!,
-          //'sex': state.sex,
-          'sex': 'male',
-        });
+        final response = await _signupApi.signUp(body: requestBody);
         state = state.copyWith(userModel: response);
         print('Signup Success: $response');
       } catch (e) {
+        logger.i("""Response 값: 
+            email: ${state.email!}
+            password: ${state.password!}
+            userId: ${state.username!},
+            firstName: ${state.firstName},
+            lastName: ${state.lastName},
+            country: ${state.selectedCountry!},
+            sex: ${state.sex},""");
         print('Signup Error: $e');
       }
     }
@@ -237,5 +227,6 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
 }
 
 final signUpProvider = StateNotifierProvider<SignUpViewModel, SignUpState>(
-  (ref) => SignUpViewModel(SignUpState()),
+      (ref) => SignUpViewModel(SignUpState(), ref.watch(signupRepositoryProvider)),
 );
+

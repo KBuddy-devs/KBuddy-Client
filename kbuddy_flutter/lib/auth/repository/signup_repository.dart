@@ -14,7 +14,7 @@ final signupRepositoryProvider = Provider<SignupRepository>((ref) {
   return SignupRepository(dio, baseUrl: baseUrl);
 });
 
-@RestApi()
+@RestApi(baseUrl: baseUrl)
 abstract class SignupRepository {
   factory SignupRepository(Dio dio, {String baseUrl}) = _SignupRepository;
   

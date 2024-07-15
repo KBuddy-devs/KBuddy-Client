@@ -4,10 +4,10 @@ import 'package:kbuddy_flutter/auth/repository/email_repository.dart';
 import 'package:kbuddy_flutter/common/const/data.dart';
 import 'package:kbuddy_flutter/common/dio/dio.dart';
 
-final emailRepositoryProvider = Provider((ref) {
-  final dio = ref.watch(dioProvider);
-  return EmailRepository(dio, baseUrl: baseUrl);
-});
+// final emailRepositoryProvider = Provider((ref) {
+//   final dio = ref.watch(dioProvider);
+//   return EmailRepository(dio, baseUrl: baseUrl);
+// });
 
 class EmailState {
   final bool isEmailExist;
