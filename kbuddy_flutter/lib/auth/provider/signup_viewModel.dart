@@ -209,6 +209,8 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
       logger.i('requestBody $requestBody');
       try {
         final response = await _signupApi.signUp(body: requestBody);
+        /// response로 토큰 2개 받는다
+        /// 토큰을 관리해 주는 코드를 여기에 삽입하여 수정 필요.
         state = state.copyWith(userModel: response);
         print('Signup Success: $response');
       } catch (e) {
