@@ -12,11 +12,13 @@ final dioProvider = Provider<Dio>((ref) {
   final storage = ref.watch(secureStroageProvider);
 
   dio.interceptors.add(PrettyDioLogger(
-      requestBody: true,
-      requestHeader: true,
-      request: true,
-      responseBody: true,
-      responseHeader: true));
+    requestBody: true,
+    requestHeader: true,
+    request: true,
+    responseBody: true,
+    responseHeader: true,
+    error: true,
+  ));
   dio.interceptors.add(Custominterceptor(storage: storage, ref: ref));
   return dio;
 });
@@ -42,8 +44,13 @@ class Custominterceptor extends Interceptor {
         'Authorization': 'Bearer $token',
         'User-Agent': 'asfd'
       });
+    } else {
+      options.headers.addAll({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'User-Agent': 'CourseMate/1.0.0 (Android 10; SM-G950U Build/R16NW) Flutter/2.2.1 Dart/2.13.0'
+      });
     }
-
     return super.onRequest(options, handler);
   }
 

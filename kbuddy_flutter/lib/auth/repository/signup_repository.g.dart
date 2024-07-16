@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_me_repository.dart';
+part of 'signup_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,32 +8,34 @@ part of 'user_me_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _UserMeRepository implements UserMeRepository {
-  _UserMeRepository(
+class _SignupRepository implements SignupRepository {
+  _SignupRepository(
     this._dio, {
     this.baseUrl,
-  });
+  }) {
+    baseUrl ??= 'https://api.bnbong.xyz/api/v1';
+  }
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<UserModel> getMe() async {
+  Future<UserModel> signUp({required Map<String, dynamic> body}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'accessToken': 'true'};
-    _headers.removeWhere((k, v) => v == null);
-    const Map<String, dynamic>? _data = null;
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<UserModel>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/user',
+              '/user/auth/register',
               queryParameters: queryParameters,
               data: _data,
             )

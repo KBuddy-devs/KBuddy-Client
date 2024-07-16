@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kbuddy_flutter/auth/provider/email_provider.dart';
 import 'package:kbuddy_flutter/common/component/custom_text_form_field.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
@@ -35,6 +37,7 @@ class _ConfirmScreenState extends ConsumerState<ConfirmScreen> {
   Widget build(BuildContext context) {
     final signUpState = ref.watch(signUpProvider);
     final signUpViewModel = ref.watch(signUpProvider.notifier);
+    final emailState = ref.watch(emailProvider);
 
     double baseWidth = 360.0;
     double baseHeight = 640.0;
@@ -106,7 +109,12 @@ class _ConfirmScreenState extends ConsumerState<ConfirmScreen> {
             SizedBox(height: spacingXxLarge),
             ElevatedButton(
               onPressed: () {
-                // Implement sign up button functionality
+                print('코드: ${emailState.verificationCode}');
+                if(emailState.verificationCode == codeEditingController.text){
+                  context.go('/signup');
+                } else{
+                  context.go('/confirm');
+                }
               },
               child: Text(
                 'Next',

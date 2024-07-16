@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/common/component/regex.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
@@ -43,6 +44,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   bool isPasswordFocused = false;
   bool isConfirmPasswordFocused = false;
 
+  String? selectedGender;
+
   @override
   void initState() {
     super.initState();
@@ -75,7 +78,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     nationController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +123,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'First name',
               controller: firstNameController,
+              onChanged: (text) {
+                signUpViewModel.updateFirstName(text);
+              },
             ),
             SizedBox(height: spacingBaseUnit10),
 
@@ -130,8 +135,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'Last name',
               controller: lastNameController,
-              onChanged: (text){
-                signUpViewModel.updateUsername(text);
+              onChanged: (text) {
+                signUpViewModel.updateLastName(text);
               },
             ),
             SizedBox(height: spacingBaseUnit10),
@@ -167,17 +172,64 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'Email address',
               controller: emailController,
-              onChanged: (text){
+              onChanged: (text) {
                 signUpViewModel.updateEmail(text);
               },
             ),
             SizedBox(height: spacingBaseUnit10),
-
+            /// Gender
+            FlexText(content: "Gender", textStyle: title300Medium),
+            SizedBox(height: spacingBaseUnit10 / 2),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedGender = 'Male';
+                      });
+                      signUpViewModel.updateSex('M');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: selectedGender == 'Male' ? Colors.white : PRIMARY_COLOR, backgroundColor: selectedGender == 'Male' ? PRIMARY_COLOR : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(color: PRIMARY_COLOR),
+                      ),
+                    ),
+                    child: Text('Male'),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedGender = 'Female';
+                      });
+                      signUpViewModel.updateSex('F');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: selectedGender == 'Female' ? Colors.white : PRIMARY_COLOR, backgroundColor: selectedGender == 'Female' ? PRIMARY_COLOR : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(color: PRIMARY_COLOR),
+                      ),
+                    ),
+                    child: Text('Female'),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: spacingBaseUnit10),
             /// User ID
             FlexText(content: "User ID", textStyle: title300Medium),
             CustomTextFormField(
               label: 'User ID',
               controller: userIdController,
+              onChanged: (text) {
+                signUpViewModel.updateUsername(text);
+              },
             ),
             SizedBox(height: spacingBaseUnit10),
 
@@ -215,9 +267,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   isConfirm: false),
             SizedBox(height: spacingBaseUnit10 * 2),
             ElevatedButton(
-              onPressed: () {
-                // Implement sign up button functionality
-              },
+              onPressed: signUpState.isFormValid ? () {
+                signUpViewModel.signUp();
+                context.go('/');
+              } : null,
               child: Text(
                 'Sign up',
                 style: TextStyle(fontSize: 16.0 * scaleHeight),
@@ -225,9 +278,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               style: ElevatedButton.styleFrom(
                   foregroundColor:
                       signUpState.isFormValid ? Colors.white : LIGHTGRAY_400,
-                  backgroundColor: signUpState.isFormValid
-                      ? PRIMARY_COLOR
-                      : LIGHTGRAY_100,
+                  backgroundColor:
+                      signUpState.isFormValid ? PRIMARY_COLOR : LIGHTGRAY_100,
                   minimumSize: Size(double.infinity, 50 * scaleHeight),
                   shape: RoundedRectangleBorder(
                       borderRadius:
