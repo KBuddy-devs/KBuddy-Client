@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import 'common/provider/go_router.dart';
 
@@ -26,6 +27,7 @@ class _Application extends ConsumerState<Application> {
   Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
     globalRouter = router;
+    KakaoSdk.init(nativeAppKey: 'bafde7003969c3c49c0f935b8ae397c3');
 
     return MaterialApp.router(
       builder: (context, child) {

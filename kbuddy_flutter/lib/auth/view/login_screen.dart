@@ -241,10 +241,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                               await emailNotifier.sendCode(
                                                   createController.text);
                                               if (context.mounted) {
-                                                print('코드: ${emailState.verificationCode}');
+                                                print(
+                                                    '코드: ${emailState.verificationCode}');
                                                 context.go('/confirm');
                                               }
-
                                             } else {}
                                           },
                                           // function: handleEmailVerification,
@@ -265,8 +265,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         name: "Continue with KaKao Talk",
                         isImage: true,
                         color: Colors.white,
-                        function: () {
-                          logger.i("kakao");
+                        function: () async {
+                          try {
+                            await ref
+                                .read(userMeProvider.notifier)
+                                .kakaoLogin(context);
+                          } catch (error) {
+                            print('카카오톡으로 로그인 실패 $error');
+                          }
                         }),
                     const SizedBox(
                       height: 12,

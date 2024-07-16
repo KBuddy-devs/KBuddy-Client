@@ -11,8 +11,8 @@ final routerProvider = Provider<GoRouter>(
 
     final provider = ref.read(authProvider);
     return GoRouter(
-      routes: routes,
-      initialLocation: '/signup',
+      routes: Routes.routes,
+      initialLocation: '/login',
       //redirect: provider.redirectLogic,
       refreshListenable: provider,
       // observers: [
