@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/auth/provider/reset_password_provider.dart';
 import 'package:kbuddy_flutter/auth/repository/reset_password_repository.dart';
 import 'package:kbuddy_flutter/common/component/common_button.dart';
@@ -9,6 +10,7 @@ import 'package:kbuddy_flutter/common/const/colors.dart';
 import 'package:kbuddy_flutter/common/const/typo.dart';
 
 import '../../common/component/text.dart';
+import '../../common/provider/route_provider.dart';
 import '../../common/utils/logger.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
@@ -41,7 +43,11 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
     return Scaffold(
       backgroundColor: WHITE,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_outlined),
+        leading: GestureDetector(
+            onTap: () {
+              context.pop();
+            },
+            child: Icon(Icons.arrow_back_outlined)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -90,6 +96,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                         .sendEmail(email);
                                     if (state is EmailConfirmModel) {
                                       // 페이지 이동
+                                      context.go(Routes.resetPasswordConfirm);
                                     }
                                   },
                                   isActivate: emailController.text.isNotEmpty),

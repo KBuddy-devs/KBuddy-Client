@@ -36,7 +36,7 @@ class AuthProvider extends ChangeNotifier {
 
     //유저 정보가 없는데 로그인화면 상태일때
     if (user == null) {
-      return loggin ? null : '/login';
+      return loggin ? null : '/login';  
     }
     //사용자 정보 존재
     if (user is UserModel) {
