@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kbuddy_flutter/common/alert/provider/alert_snackbar_provider.dart';
+import 'package:kbuddy_flutter/common/alert/view/alert_snackbar.dart';
 import 'package:kbuddy_flutter/common/component/regex.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
@@ -111,6 +113,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           'Create account',
           style: TextStyle(fontSize: 20.0 * scaleHeight),
         ),
+        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -269,7 +272,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             ElevatedButton(
               onPressed: signUpState.isFormValid ? () {
                 signUpViewModel.signUp();
-                context.go('/');
+                AlertSnackbarProvider.showAlertSnackbar(context: context, message: "Registration is Complete", status: AlertSnackbarEnum.success, position: AlertSnackbarPositionEnum.bottom, duration: 3);
+                context.go('/login');
               } : null,
               child: Text(
                 'Sign up',

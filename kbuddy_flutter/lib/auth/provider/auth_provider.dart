@@ -28,15 +28,19 @@ class AuthProvider extends ChangeNotifier {
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
     print('redirect시작');
-    return '/login';
+    // return '/login';
+
+    final isExcludePage = state.uri.toString() == '/login' ||
+        state.uri.toString() == '/signup' ||
+        state.uri.toString() == '/confirm';
     final UserModelBase? user = ref.read(userMeProvider);
     print(user);
     // 로그인 화면의 상태인 경우
-    final loggin = state.uri.toString() == '/community';
+    //final loggin = state.uri.toString() == '/community';
 
     //유저 정보가 없는데 로그인화면 상태일때
     if (user == null) {
-      return loggin ? null : '/login';  
+      return isExcludePage? null : '/login';
     }
     //사용자 정보 존재
     if (user is UserModel) {
@@ -45,7 +49,7 @@ class AuthProvider extends ChangeNotifier {
       // return loggin || state.uri.toString() == '/login' ? '/community' : '/login';
     }
     if (user is UserModelError) {
-      return !loggin ? '/login' : null;
+      return !isExcludePage ? '/login' : null;
     }
 
     return null;

@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kbuddy_flutter/auth/model/auth_response.dart';
 import 'package:retrofit/http.dart';
 
 import '../../common/const/data.dart';
@@ -19,7 +20,7 @@ abstract class SignupRepository {
   factory SignupRepository(Dio dio, {String baseUrl}) = _SignupRepository;
   
   @POST('/user/auth/register')
-  Future<UserModel> signUp({
+  Future<AuthResponse> signUp({
     @Body() required Map<String, dynamic> body,
     //@Header("Authorization") required String authorization,
     //@Header("User-Agent") required String userAgent
