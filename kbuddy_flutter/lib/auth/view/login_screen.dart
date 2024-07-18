@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/auth/provider/email_provider.dart';
+import 'package:kbuddy_flutter/auth/view/reset_password_confirm_screen.dart';
+import 'package:kbuddy_flutter/auth/view/reset_password_screen.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
 import 'package:kbuddy_flutter/common/const/typo.dart';
 
 import '../../common/component/custom_text_form_field.dart';
+import '../../common/provider/route_provider.dart';
 import '../../common/utils/logger.dart';
 import '../../user/provider/user_me_provider.dart';
 import '../provider/signup_viewModel.dart';
@@ -164,7 +167,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                               ],
                                             ),
                                             TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                logger.e('1');
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ResetPasswordScreen(),
+                                                  ),
+                                                ); // context
+                                                // .go(Routes.resetPassword);
+                                              },
                                               child: FlexText(
                                                 content: 'Forgot password?',
                                                 textStyle: btn200Lined,
@@ -231,6 +244,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                                 print('코드: ${emailState.verificationCode}');
                                                 context.go('/confirm');
                                               }
+
                                             } else {}
                                           },
                                           // function: handleEmailVerification,
