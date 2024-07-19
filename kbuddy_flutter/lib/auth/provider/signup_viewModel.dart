@@ -7,7 +7,7 @@ import 'package:kbuddy_flutter/common/const/data.dart';
 import 'package:kbuddy_flutter/common/secure_storage/secure_storage_provider.dart';
 
 import '../../common/utils/logger.dart';
-import '../../common/utils/password_validator.dart';
+import '../../common/utils/validator.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
 
@@ -175,20 +175,20 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
   }
 
   void _updatePasswordValidity() {
-    bool isPasswordValid = PasswordValidator.hasMinLength(state.password!) &&
-        (PasswordValidator.hasUpperCase(state.password!) ||
-            (PasswordValidator.hasLowerCase(state.password!) &&
-                PasswordValidator.hasDigit(state.password!))) &&
-        PasswordValidator.hasUpperCase(state.password!) &&
-        PasswordValidator.hasSpecialChar(state.password!) &&
-        PasswordValidator.isMaxLength(state.password!);
+    bool isPasswordValid = Validator.hasMinLength(state.password!) &&
+        (Validator.hasUpperCase(state.password!) ||
+            (Validator.hasLowerCase(state.password!) &&
+                Validator.hasDigit(state.password!))) &&
+        Validator.hasUpperCase(state.password!) &&
+        Validator.hasSpecialChar(state.password!) &&
+        Validator.isMaxLength(state.password!);
 
     state = state.copyWith(isPasswordValid: isPasswordValid);
     _updateFormValidity();
   }
 
   void _updateConfirmPasswordValidity(String confirmPassword) {
-    bool isConfirmPasswordValid = PasswordValidator.passwordsMatch(
+    bool isConfirmPasswordValid = Validator.passwordsMatch(
         state.password!, state.confirmPassword!);
     state = state.copyWith(isConfirmPasswordValid: isConfirmPasswordValid);
     _updateFormValidity();

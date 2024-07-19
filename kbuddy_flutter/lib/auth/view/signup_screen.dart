@@ -43,8 +43,21 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   final FocusNode passwordFocusNode = FocusNode();
   final FocusNode confirmFocusNode = FocusNode();
+  final FocusNode idFocusNode = FocusNode();
+  final FocusNode firstNameFocusNode = FocusNode();
+  final FocusNode lastNameFocusNode = FocusNode();
+  final FocusNode createFocusNode = FocusNode();
+  final FocusNode nationFocusNode = FocusNode();
+  final FocusNode emailFocusNode = FocusNode();
+
   bool isPasswordFocused = false;
   bool isConfirmPasswordFocused = false;
+  bool isFirstNameFocused = false;
+  bool isLastNameFocused = false;
+  bool isUserIdFocused = false;
+  bool isCreateFocused = false;
+  bool isNationFocused = false;
+  bool isEmailFocused = false;
 
   String? selectedGender;
 
@@ -59,6 +72,36 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     confirmFocusNode.addListener(() {
       setState(() {
         isConfirmPasswordFocused = confirmFocusNode.hasFocus;
+      });
+    });
+    idFocusNode.addListener(() {
+      setState(() {
+        isUserIdFocused = idFocusNode.hasFocus;
+      });
+    });
+    lastNameFocusNode.addListener(() {
+      setState(() {
+        isLastNameFocused = lastNameFocusNode.hasFocus;
+      });
+    });
+    firstNameFocusNode.addListener(() {
+      setState(() {
+        isFirstNameFocused = firstNameFocusNode.hasFocus;
+      });
+    });
+    emailFocusNode.addListener(() {
+      setState(() {
+        isEmailFocused = emailFocusNode.hasFocus;
+      });
+    });
+    createFocusNode.addListener(() {
+      setState(() {
+        isCreateFocused = createFocusNode.hasFocus;
+      });
+    });
+    nationFocusNode.addListener(() {
+      setState(() {
+        isNationFocused = nationFocusNode.hasFocus;
       });
     });
     final signUpState = ref.read(signUpProvider);
@@ -78,6 +121,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     passwordCheckController.dispose();
     createController.dispose();
     nationController.dispose();
+
     super.dispose();
   }
 
@@ -126,10 +170,16 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'First name',
               controller: firstNameController,
+              focusNode: firstNameFocusNode,
               onChanged: (text) {
                 signUpViewModel.updateFirstName(text);
               },
             ),
+            if (isFirstNameFocused)
+              ValidationWidget(
+                text: firstNameController.text,
+                validationType: ValidationType.fName,
+              ),
             SizedBox(height: spacingBaseUnit10),
 
             /// Last name
@@ -138,10 +188,16 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             CustomTextFormField(
               label: 'Last name',
               controller: lastNameController,
+              focusNode: lastNameFocusNode,
               onChanged: (text) {
                 signUpViewModel.updateLastName(text);
               },
             ),
+            if (isLastNameFocused)
+              ValidationWidget(
+                text: lastNameController.text,
+                validationType: ValidationType.lName,
+              ),
             SizedBox(height: spacingBaseUnit10),
 
             /// Nation
@@ -166,6 +222,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 labelText: 'Country',
                 floatingLabelBehavior: FloatingLabelBehavior.never,
               ),
+              focusNode: nationFocusNode,
             ),
             SizedBox(height: spacingBaseUnit10),
 
@@ -178,8 +235,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               onChanged: (text) {
                 signUpViewModel.updateEmail(text);
               },
+              canChange: false,
             ),
             SizedBox(height: spacingBaseUnit10),
+
             /// Gender
             FlexText(content: "Gender", textStyle: title300Medium),
             SizedBox(height: spacingBaseUnit10 / 2),
@@ -194,7 +253,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       signUpViewModel.updateSex('M');
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: selectedGender == 'Male' ? Colors.white : PRIMARY_COLOR, backgroundColor: selectedGender == 'Male' ? PRIMARY_COLOR : Colors.white,
+                      foregroundColor: selectedGender == 'Male'
+                          ? Colors.white
+                          : PRIMARY_COLOR,
+                      backgroundColor: selectedGender == 'Male'
+                          ? PRIMARY_COLOR
+                          : Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: BorderSide(color: PRIMARY_COLOR),
@@ -213,7 +277,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       signUpViewModel.updateSex('F');
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: selectedGender == 'Female' ? Colors.white : PRIMARY_COLOR, backgroundColor: selectedGender == 'Female' ? PRIMARY_COLOR : Colors.white,
+                      foregroundColor: selectedGender == 'Female'
+                          ? Colors.white
+                          : PRIMARY_COLOR,
+                      backgroundColor: selectedGender == 'Female'
+                          ? PRIMARY_COLOR
+                          : Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: BorderSide(color: PRIMARY_COLOR),
@@ -225,15 +294,22 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               ],
             ),
             SizedBox(height: spacingBaseUnit10),
+
             /// User ID
             FlexText(content: "User ID", textStyle: title300Medium),
             CustomTextFormField(
               label: 'User ID',
               controller: userIdController,
+              focusNode: idFocusNode,
               onChanged: (text) {
                 signUpViewModel.updateUsername(text);
               },
             ),
+            if (isUserIdFocused)
+              ValidationWidget(
+                text: userIdController.text,
+                validationType: ValidationType.id,
+              ),
             SizedBox(height: spacingBaseUnit10),
 
             /// Password
@@ -247,9 +323,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   signUpViewModel.updatePassword(text);
                 }),
             if (isPasswordFocused)
-              PasswordValidationWidget(
-                  password: passwordController.text,
-                  confirmPassword: passwordCheckController.text),
+              ValidationWidget(
+                text: passwordController.text,
+                confirmPassword: passwordCheckController.text,
+                validationType: ValidationType.pwd,
+              ),
             SizedBox(height: spacingBaseUnit10),
 
             /// Confirm Password
@@ -264,17 +342,24 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               },
             ),
             if (isConfirmPasswordFocused)
-              PasswordValidationWidget(
-                  password: passwordController.text,
+              ValidationWidget(
+                  text: passwordController.text,
                   confirmPassword: passwordCheckController.text,
-                  isConfirm: false),
+                  validationType: ValidationType.pwdMatch),
             SizedBox(height: spacingBaseUnit10 * 2),
             ElevatedButton(
-              onPressed: signUpState.isFormValid ? () {
-                signUpViewModel.signUp();
-                AlertSnackbarProvider.showAlertSnackbar(context: context, message: "Registration is Complete", status: AlertSnackbarEnum.success, position: AlertSnackbarPositionEnum.bottom, duration: 3);
-                context.go('/login');
-              } : null,
+              onPressed: signUpState.isFormValid
+                  ? () {
+                      signUpViewModel.signUp();
+                      AlertSnackbarProvider.showAlertSnackbar(
+                          context: context,
+                          message: "Registration is Complete",
+                          status: AlertSnackbarEnum.success,
+                          position: AlertSnackbarPositionEnum.bottom,
+                          duration: 3);
+                      context.go('/login');
+                    }
+                  : null,
               child: Text(
                 'Sign up',
                 style: TextStyle(fontSize: 16.0 * scaleHeight),
