@@ -110,7 +110,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => OauthRegitserScreen(user: user),
+            builder: (context) => OauthRegitserScreen(),//user: user),
           ),
         );
       }

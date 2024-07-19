@@ -1,6 +1,6 @@
 class PasswordValidator {
   static bool hasMinLength(String password){
-    return password.length >= 12;
+    return password.length >= 8;
   }
 
   static bool isMaxLength(String password){
