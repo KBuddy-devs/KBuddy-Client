@@ -118,7 +118,7 @@ class AuthRepository {
 
   Future<LoginResponse> kakaoRegister(OauthRegisterModel model) async {
     final resp = await dio.post(
-      "$baseurl/user/auth/register",
+      "$baseurl/user/oauth/register",
       data: {
         'email': model.email,
         'oauth': model.oauth,

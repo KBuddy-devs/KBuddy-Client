@@ -26,7 +26,8 @@ class OauthRegitserScreen extends ConsumerStatefulWidget {
 }
 
 class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
-  final TextEditingController emailController = TextEditingController();
+  late TextEditingController emailController =
+      TextEditingController(text: widget.user.kakaoAccount!.email);
   final TextEditingController userIdController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -68,6 +69,7 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
             CustomTextFormField(
               label: 'email',
               controller: emailController,
+              readonly: true,
               onChanged: (text) {
                 viewModel.updateFirstName(text);
               },
@@ -91,7 +93,7 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
             SizedBox(height: spacingBaseUnit10 / 2),
             CustomTextFormField(
               label: 'First name',
-              controller: emailController,
+              controller: firstNameController,
               onChanged: (text) {
                 viewModel.updateFirstName(text);
               },
@@ -103,7 +105,7 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
             SizedBox(height: spacingBaseUnit10 / 2),
             CustomTextFormField(
               label: 'Last name',
-              controller: emailController,
+              controller: lastNameController,
               onChanged: (text) {
                 viewModel.updateFirstName(text);
               },
@@ -191,7 +193,16 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
             ),
             SizedBox(height: spacingBaseUnit10),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await ref.read(userMeProvider.notifier).kakaoRegister(
+                    OauthRegisterModel(
+                        email: widget.user.kakaoAccount!.email!,
+                        oauth: "KAKAO",
+                        userId: userIdController.text,
+                        country: state.country,
+                        firstName: firstNameController.text,
+                        gender: state.gender,
+                        lastName: lastNameController.text));
                 // viewModel.kakaoRegister(OauthRegisterModel(
                 //   email: state.email,
                 //   oauth: state.oauth,
@@ -216,15 +227,7 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
             )
             // child: GestureDetector(
             //     onTap: () async {
-            //       await ref.read(userMeProvider.notifier).kakaoRegister(
-            //           OauthRegisterModel(
-            //               email: "email",
-            //               oauth: "oauth",
-            //               userId: "userId",
-            //               country: "KOREA",
-            //               firstName: "firstName",
-            //               gender: 'M',
-            //               lastName: "lastName"));
+            //
             //     },
             //     child: Text("완료하기"))
           ],
