@@ -28,7 +28,6 @@ class AuthProvider extends ChangeNotifier {
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
     print('redirect시작');
-    return '/login';
     final UserModelBase? user = ref.read(userMeProvider);
     print(user);
     // 로그인 화면의 상태인 경우
@@ -36,15 +35,16 @@ class AuthProvider extends ChangeNotifier {
 
     //유저 정보가 없는데 로그인화면 상태일때
     if (user == null) {
-      return loggin ? null : '/login';  
+      return loggin ? null : '/login';
     }
     //사용자 정보 존재
     if (user is UserModel) {
-      logger.e('user : $user');
+      logger.e("루트로 이동");
       return '/';
       // return loggin || state.uri.toString() == '/login' ? '/community' : '/login';
     }
     if (user is UserModelError) {
+      logger.i(user);
       return !loggin ? '/login' : null;
     }
 

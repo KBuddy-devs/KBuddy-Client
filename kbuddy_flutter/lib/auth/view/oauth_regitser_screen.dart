@@ -39,7 +39,7 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(oauthRegisterViewModelProvider.notifier);
-    final state = ref.watch(oauthRegisterStateProvider);
+    final state = ref.watch(oauthRegisterViewModelProvider);
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;

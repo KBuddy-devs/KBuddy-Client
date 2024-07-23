@@ -4,6 +4,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:kbuddy_flutter/auth/model/oauth_register_model.dart';
 import 'package:kbuddy_flutter/auth/model/oauth_request_model.dart';
 import 'package:kbuddy_flutter/common/model/base_response_model.dart';
+import 'package:kbuddy_flutter/common/model/oauth_check_model.dart';
 
 import '../../common/const/data.dart';
 import '../../common/dio/dio.dart';
@@ -100,7 +101,7 @@ class AuthRepository {
 
   Future<LoginResponse> kakaoLogin(final email, final platform) async {
     final resp = await dio.post(
-      "$baseurl/user/auth/login",
+      "$baseurl/user/auth/oauth/login",
       data: {
         'email': email,
         'oauth': platform,
@@ -116,9 +117,27 @@ class AuthRepository {
     return LoginResponse.fromJson(resp.data);
   }
 
+  Future<OauthCheckModel> hasOauthLogin(final email, final platform) async {
+    final resp = await dio.post(
+      "$baseurl/user/auth/oauth/check",
+      data: {
+        'email': email,
+        'oauth': platform,
+      },
+      options: Options(
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'User-Agent': 'asfd'
+        },
+      ),
+    );
+    return OauthCheckModel.fromJson(resp.data);
+  }
+
   Future<LoginResponse> kakaoRegister(OauthRegisterModel model) async {
     final resp = await dio.post(
-      "$baseurl/user/oauth/register",
+      "$baseurl/user/auth/oauth/register",
       data: {
         'email': model.email,
         'oauth': model.oauth,

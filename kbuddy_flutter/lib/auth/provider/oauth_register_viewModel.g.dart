@@ -7,7 +7,7 @@ part of 'oauth_register_viewModel.dart';
 // **************************************************************************
 
 String _$oauthRegisterViewModelHash() =>
-    r'72b926be32696bd422d57847c5fa08649738148f';
+    r'c123dc0f994cae83137e294a80948b4617b46f12';
 
 /// See also [OauthRegisterViewModel].
 @ProviderFor(OauthRegisterViewModel)
