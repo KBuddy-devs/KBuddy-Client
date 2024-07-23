@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:kbuddy_flutter/common/utils/logger.dart';
 
 import 'common/provider/go_router.dart';
 
@@ -11,7 +12,8 @@ late GoRouter globalRouter;
 Future<void> main() async {
   await initializeDateFormatting('ko_KR');
   WidgetsFlutterBinding.ensureInitialized();
-
+  KakaoSdk.init(nativeAppKey: 'bafde7003969c3c49c0f935b8ae397c3');
+  logger.i('카카오 해시키 ${await KakaoSdk.origin}');
   runApp(const ProviderScope(child: Application()));
 }
 
@@ -27,7 +29,6 @@ class _Application extends ConsumerState<Application> {
   Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
     globalRouter = router;
-    KakaoSdk.init(nativeAppKey: 'bafde7003969c3c49c0f935b8ae397c3');
 
     return MaterialApp.router(
       builder: (context, child) {

@@ -79,11 +79,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       // 그리고 내 정보인 UserModel을 받아온다.
       final userRes = await repo.getMe();
       state = userRes;
-      // return userRes;
-      UserModel userTmp = UserModel(id: id, role: id);
-      logger.e('end');
-      state = userTmp;
-      return userTmp;
+      return userRes;
     } catch (e) {
       state = null;
       logger.e('error : $e');
@@ -96,24 +92,25 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     try {
       state = UserModelLoading();
       final user = await authRepo.kakaoHandler();
-      if (user.hasSignedUp!) {
-        final email = user.kakaoAccount!.email!;
-        final resp = await authRepo.kakaoLogin(email, 'KAKAO');
-        // 새로 받은 토큰 저장
-        await Future.wait([
-          storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken),
-          storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken),
-        ]);
-        final userResp = await repo.getMe();
-        state = userResp;
-      } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OauthRegitserScreen(user: user),
-          ),
-        );
-      }
+      logger.i(user.connectedAt);
+      // if (user.connectedAt != null) {
+      //   final email = user.kakaoAccount!.email!;
+      //   final resp = await authRepo.kakaoLogin(email, 'KAKAO');
+      //   // 새로 받은 토큰 저장
+      //   await Future.wait([
+      //     storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken),
+      //     storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken),
+      //   ]);
+      //   final userResp = await repo.getMe();
+      //   state = userResp;
+      // } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OauthRegitserScreen(user: user),
+        ),
+      );
+      //}
       // 로그인 시, 현재 유저의 정보 가져오기
       // `getMe` 를 하며 서버에서 token 의 유효성 검증
     } catch (e) {

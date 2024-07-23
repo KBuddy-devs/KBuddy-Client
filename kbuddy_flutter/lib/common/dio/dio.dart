@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kbuddy_flutter/common/const/data.dart';
+import 'package:kbuddy_flutter/common/utils/logger.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../auth/provider/auth_provider.dart';
@@ -30,13 +31,15 @@ class Custominterceptor extends Interceptor {
   Custominterceptor({required this.storage, required this.ref});
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     // TODO: implement onRequest
     print('[REQ] [${options.method}] ${options.uri}');
 
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
-      final token = storage.read(key: ACCESS_TOKEN_KEY);
+      final token = await storage.read(key: ACCESS_TOKEN_KEY);
+      logger.i(token);
       // 헤더 토큰을 실제 값으로 넣어준다.
       options.headers.addAll({
         'Content-Type': 'application/json',
@@ -48,7 +51,8 @@ class Custominterceptor extends Interceptor {
       options.headers.addAll({
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'User-Agent': 'CourseMate/1.0.0 (Android 10; SM-G950U Build/R16NW) Flutter/2.2.1 Dart/2.13.0'
+        'User-Agent':
+            'CourseMate/1.0.0 (Android 10; SM-G950U Build/R16NW) Flutter/2.2.1 Dart/2.13.0'
       });
     }
     return super.onRequest(options, handler);

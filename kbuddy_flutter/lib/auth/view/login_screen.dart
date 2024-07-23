@@ -267,6 +267,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         color: Colors.white,
                         function: () async {
                           try {
+                            logger.i("z");
                             await ref
                                 .read(userMeProvider.notifier)
                                 .kakaoLogin(context);

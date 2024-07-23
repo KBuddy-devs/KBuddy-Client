@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:kbuddy_flutter/auth/model/oauth_register_model.dart';
+import 'package:kbuddy_flutter/common/utils/logger.dart';
 import 'package:kbuddy_flutter/user/provider/user_me_provider.dart';
 
 class OauthRegitserScreen extends ConsumerStatefulWidget {
@@ -26,10 +27,11 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
       body: Center(
           child: GestureDetector(
               onTap: () async {
+                logger.i("oauth 회원가입 시도");
                 await ref.read(userMeProvider.notifier).kakaoRegister(
                     OauthRegisterModel(
                         email: "email",
-                        oauth: "oauth",
+                        oauth: "KAKAO",
                         userId: "userId",
                         country: "KOREA",
                         firstName: "firstName",
