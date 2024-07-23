@@ -41,6 +41,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   final FocusNode passwordFocusNode = FocusNode();
   final FocusNode confirmFocusNode = FocusNode();
+
   bool isPasswordFocused = false;
   bool isConfirmPasswordFocused = false;
 
