@@ -1,15 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kbuddy_flutter/community/view/community_screen.dart';
-import 'package:kbuddy_flutter/common/view/default_screen.dart';
 
 import '../../common/utils/logger.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
-import '../view/login_screen.dart';
-import '../view/splash_screen.dart';
 
 final authProvider = ChangeNotifierProvider((ref) {
   return AuthProvider(ref: ref);
@@ -33,22 +28,19 @@ class AuthProvider extends ChangeNotifier {
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
     print('redirect시작');
-    // reset password 테스트 위한 코드
-    logger.i('state : ${state.toString()}');
-    logger.i('name : ${state.uri}');
-    logger.i('path : ${state.fullPath}');
-    if (state.name != null && state.name!.contains('resetPassword')) {
-      return state.path;
-    }
-    // return '/';
+    // return '/login';
+
+    final isExcludePage = state.uri.toString() == '/login' ||
+        state.uri.toString() == '/signup' ||
+        state.uri.toString() == '/confirm';
     final UserModelBase? user = ref.read(userMeProvider);
     print(user);
     // 로그인 화면의 상태인 경우
-    final loggin = state.uri.toString() == '/community';
+    //final loggin = state.uri.toString() == '/community';
 
     //유저 정보가 없는데 로그인화면 상태일때
     if (user == null) {
-      return loggin ? null : '/login';
+      return isExcludePage? null : '/login';
     }
     //사용자 정보 존재
     if (user is UserModel) {
@@ -57,7 +49,7 @@ class AuthProvider extends ChangeNotifier {
       // return loggin || state.uri.toString() == '/login' ? '/community' : '/login';
     }
     if (user is UserModelError) {
-      return !loggin ? '/login' : null;
+      return !isExcludePage ? '/login' : null;
     }
 
     return null;

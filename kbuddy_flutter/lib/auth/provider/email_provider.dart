@@ -1,7 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kbuddy_flutter/auth/model/email_model.dart';
 import 'package:kbuddy_flutter/auth/repository/email_repository.dart';
+import 'package:kbuddy_flutter/common/const/data.dart';
+import 'package:kbuddy_flutter/common/dio/dio.dart';
 
-final emailRepositoryProvider = Provider((ref) => EmailRepository());
+// final emailRepositoryProvider = Provider((ref) {
+//   final dio = ref.watch(dioProvider);
+//   return EmailRepository(dio, baseUrl: baseUrl);
+// });
 
 class EmailState {
   final bool isEmailExist;
@@ -29,32 +35,46 @@ class EmailState {
 
 class EmailNotifier extends StateNotifier<EmailState> {
   final EmailRepository _emailRepository;
+
   EmailNotifier(this._emailRepository) : super(EmailState());
 
   Future<void> checkEmail(String email) async {
     state = state.copyWith(isLoading: true);
 
-    try{
-      final isEmailExist = await _emailRepository.checkEmailExists(email);
-      state = state.copyWith(isEmailExist: isEmailExist, isLoading: false);
-    }catch(e){
+    try {
+      final emailModel = EmailModel(email: email);
+      final response = await _emailRepository.checkEmailExists(email: emailModel.toJson());
+      state = state.copyWith(isEmailExist: response.data, isLoading: false);
+    } catch (e) {
       state = state.copyWith(isLoading: false);
       print('Error: $e');
     }
   }
-  Future<void> sendCode(String email) async{
+
+  Future<void> sendCode(String email) async {
     state = state.copyWith(isLoading: true);
-    try{
-      final verificationCode = await _emailRepository.sendVerificationCode(email);
-      state = state.copyWith(verificationCode: verificationCode, isLoading: false);
-    }catch(e){
+    try {
+      final emailModel = EmailModel(email: email);
+      final response = await _emailRepository.sendVerificationCode(email: emailModel.toJson());
+
+      print('Response data: ${response.message}');
+      if (response != null && response.message != null) {
+        // message 필드만 추출
+        final String verificationCode = response.message;
+        state =
+            state.copyWith(verificationCode: verificationCode, isLoading: false);
+      } else{
+        state = state.copyWith(isLoading: false);
+        print('Error: Response Data is null');
+      }
+    } catch (e) {
       state = state.copyWith(isLoading: false);
       print('Error: $e');
     }
   }
 }
 
-final emailProvider = StateNotifierProvider<EmailNotifier,EmailState>((ref){
+final emailProvider = StateNotifierProvider<EmailNotifier, EmailState>((ref) {
   final repository = ref.watch(emailRepositoryProvider);
   return EmailNotifier(repository);
 });
