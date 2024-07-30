@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'email_model.dart';
+part of 'reset_password_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -17,12 +17,22 @@ Map<String, dynamic> _$EmailModelToJson(EmailModel instance) =>
 
 EmailConfirmModel _$EmailConfirmModelFromJson(Map<String, dynamic> json) =>
     EmailConfirmModel(
-      email: json['email'] as String,
-      code: json['code'] as String,
+      status: json['status'] as bool,
+      message: json['message'] as String,
     );
 
 Map<String, dynamic> _$EmailConfirmModelToJson(EmailConfirmModel instance) =>
     <String, dynamic>{
-      'email': instance.email,
-      'code': instance.code,
+      'status': instance.status,
+      'message': instance.message,
+    };
+
+ResetPasswordModel _$ResetPasswordModelFromJson(Map<String, dynamic> json) =>
+    ResetPasswordModel(
+      password: json['password'] as String,
+    );
+
+Map<String, dynamic> _$ResetPasswordModelToJson(ResetPasswordModel instance) =>
+    <String, dynamic>{
+      'password': instance.password,
     };

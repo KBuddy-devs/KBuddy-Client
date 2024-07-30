@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kbuddy_flutter/user/provider/user_me_provider.dart';
 
 import '../../../common/view/bottom_navbar.dart';
-import '../../../common/view/top_appbar.dart';
+import '../../../common/appbar/appbar_logo.dart';
 
 class MyPageScreen extends ConsumerStatefulWidget {
   const MyPageScreen({super.key});

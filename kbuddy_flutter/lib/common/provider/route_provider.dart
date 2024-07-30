@@ -1,10 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:kbuddy_flutter/auth/view/create_new_password_screen.dart';
 import 'package:kbuddy_flutter/auth/view/login_screen.dart';
 import 'package:kbuddy_flutter/auth/view/reset_password_screen.dart';
-import 'package:kbuddy_flutter/auth/view/signup_screen.dart';
 
 import '../../auth/view/confirm_screen.dart';
 import '../../auth/view/reset_password_confirm_screen.dart';
+import '../../auth/view/signup_screen.dart';
 import '../../auth/view/splash_screen.dart';
 import '../../community/view/community_screen.dart';
 import '../view/default_screen.dart';

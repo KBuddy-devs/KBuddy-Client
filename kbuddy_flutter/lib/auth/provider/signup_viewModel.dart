@@ -1,10 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kbuddy_flutter/auth/model/auth_response.dart';
 import 'package:kbuddy_flutter/auth/repository/signup_repository.dart';
+import 'package:kbuddy_flutter/common/const/data.dart';
+import 'package:kbuddy_flutter/common/secure_storage/secure_storage_provider.dart';
 
 import '../../common/utils/logger.dart';
-import '../../common/utils/password_validator.dart';
+import '../../common/utils/validator.dart';
 import '../../user/model/user_model.dart';
+import '../../user/provider/user_me_provider.dart';
 
 const List<String> countryList = [
   'USA',
@@ -87,7 +92,7 @@ class SignUpState {
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isPasswordValid: isPasswordValid ?? this.isPasswordValid,
       isConfirmPasswordValid:
-      isConfirmPasswordValid ?? this.isConfirmPasswordValid,
+          isConfirmPasswordValid ?? this.isConfirmPasswordValid,
       isFormValid: isFormValid ?? this.isFormValid,
       isCodeBoxValid: isCodeBoxValid ?? this.isCodeBoxValid,
       isCodeValid: isCodeValid ?? this.isCodeValid,
@@ -100,13 +105,16 @@ class SignUpState {
 // 이 클래스 에서는 상태를 인자로 가진다.
 class SignUpViewModel extends StateNotifier<SignUpState> {
   final SignupRepository _signupApi;
+  final FlutterSecureStorage _storage;
+  final UserMeStateNotifier _userMeStateNotifier;
 
-  SignUpViewModel(SignUpState state, this._signupApi) : super(state);
+  SignUpViewModel(SignUpState state, this._signupApi, this._storage,
+      this._userMeStateNotifier)
+      : super(state);
 
   // Dio -> _signupApi 초기화 해야 함.
   // 생성자 내부에서 진행 -> 변수 즉시 초기화 불가.
   // 따라서 late 사용.
-
 
   //SignUpViewModel() : super(SignUpState());
 
@@ -167,20 +175,20 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
   }
 
   void _updatePasswordValidity() {
-    bool isPasswordValid = PasswordValidator.hasMinLength(state.password!) &&
-        (PasswordValidator.hasUpperCase(state.password!) ||
-            (PasswordValidator.hasLowerCase(state.password!) &&
-                PasswordValidator.hasDigit(state.password!))) &&
-        PasswordValidator.hasUpperCase(state.password!) &&
-        PasswordValidator.hasSpecialChar(state.password!) &&
-        PasswordValidator.isMaxLength(state.password!);
+    bool isPasswordValid = Validator.hasMinLength(state.password!) &&
+        (Validator.hasUpperCase(state.password!) ||
+            (Validator.hasLowerCase(state.password!) &&
+                Validator.hasDigit(state.password!))) &&
+        Validator.hasUpperCase(state.password!) &&
+        Validator.hasSpecialChar(state.password!) &&
+        Validator.isMaxLength(state.password!);
 
     state = state.copyWith(isPasswordValid: isPasswordValid);
     _updateFormValidity();
   }
 
   void _updateConfirmPasswordValidity(String confirmPassword) {
-    bool isConfirmPasswordValid = PasswordValidator.passwordsMatch(
+    bool isConfirmPasswordValid = Validator.passwordsMatch(
         state.password!, state.confirmPassword!);
     state = state.copyWith(isConfirmPasswordValid: isConfirmPasswordValid);
     _updateFormValidity();
@@ -208,20 +216,19 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
       };
       logger.i('requestBody $requestBody');
       try {
-        final response = await _signupApi.signUp(body: requestBody);
+        final AuthResponse response = await _signupApi.signUp(body: requestBody);
         /// response로 토큰 2개 받는다
         /// 토큰을 관리해 주는 코드를 여기에 삽입하여 수정 필요.
-        state = state.copyWith(userModel: response);
+        await _storage.write(
+            key: REFRESH_TOKEN_KEY, value: response.refreshToken);
+        await _storage.write(
+            key: ACCESS_TOKEN_KEY, value: response.accessToken);
+
+        await _userMeStateNotifier.getMe();
+
+        //state = state.copyWith(userModel: response);
         print('Signup Success: $response');
       } catch (e) {
-        logger.i("""Response 값: 
-            email: ${state.email!}
-            password: ${state.password!}
-            userId: ${state.username!},
-            firstName: ${state.firstName},
-            lastName: ${state.lastName},
-            country: ${state.selectedCountry!},
-            sex: ${state.sex},""");
         print('Signup Error: $e');
       }
     }
@@ -229,6 +236,10 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
 }
 
 final signUpProvider = StateNotifierProvider<SignUpViewModel, SignUpState>(
-      (ref) => SignUpViewModel(SignUpState(), ref.watch(signupRepositoryProvider)),
+  (ref) => SignUpViewModel(
+    SignUpState(),
+    ref.watch(signupRepositoryProvider),
+    ref.watch(secureStroageProvider),
+    ref.read(userMeProvider.notifier),
+  ),
 );
-

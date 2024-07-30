@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kbuddy_flutter/auth/model/email_model.dart';
+import 'package:kbuddy_flutter/auth/model/reset_password_model.dart';
 import 'package:kbuddy_flutter/auth/repository/reset_password_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,7 +22,18 @@ class ResetPassword extends _$ResetPassword {
     logger.e('emailmodel : ${emailModel.toJson().toString()}');
     final resp =
         await repository.sendPasswordResetEmail(emailModel: emailModel);
-    state = resp.data;
+    state = resp;
+    logger.e('state : $state');
+    // return state;
+  }
+
+  Future<void> sendNewPassword(ResetPasswordModel resetPasswordModel) async {
+    final repository = ref.read(resetPasswordRepositoryProvider);
+    logger.e('resetPasswordModel : ${resetPasswordModel.toJson().toString()}');
+    final resp = await repository.sendNewPassword(
+        resetPasswordModel: resetPasswordModel);
+    state = resp;
+    logger.e('state : $state');
     // return state;
   }
 

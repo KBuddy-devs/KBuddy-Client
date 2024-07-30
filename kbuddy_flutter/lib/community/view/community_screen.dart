@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../common/view/bottom_navbar.dart';
-import '../../common/view/top_appbar.dart';
+import '../../common/appbar/appbar_logo.dart';
 
 class CommunityScreen extends ConsumerStatefulWidget {
   const CommunityScreen({Key? key}) : super(key: key);
@@ -110,7 +110,8 @@ class FeaturedPostCard extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+                  backgroundImage:
+                      NetworkImage('https://via.placeholder.com/150'),
                 ),
                 SizedBox(width: 8.0),
                 Text('@jenny12'),

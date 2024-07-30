@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kbuddy_flutter/auth/model/email_model.dart';
+import 'package:kbuddy_flutter/auth/model/reset_password_model.dart';
+import 'package:kbuddy_flutter/auth/provider/reset_password_provider.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../common/const/data.dart';
@@ -22,7 +23,15 @@ abstract class ResetPasswordRepository {
 
   @POST('/user/auth/email/send')
   // @Headers({'accessToken': 'false'})
-  Future<DefaultResponseModel<EmailConfirmModel>> sendPasswordResetEmail({
+  // Future<EmailConfirmModel> sendPasswordResetEmail({
+  Future<EmailConfirmModel> sendPasswordResetEmail({
     @Body() required EmailModel emailModel,
+  });
+
+  @POST('/user/auth/password')
+  // @Headers({'accessToken': 'false'})
+  // Future<EmailConfirmModel> sendPasswordResetEmail({
+  Future<EmailConfirmModel> sendNewPassword({
+    @Body() required ResetPasswordModel resetPasswordModel,
   });
 }

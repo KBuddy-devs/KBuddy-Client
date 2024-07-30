@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../common/view/bottom_navbar.dart';
-import '../../common/view/top_appbar.dart';
+import '../../common/appbar/appbar_logo.dart';
 
 class ServicesScreen extends StatelessWidget {
   const ServicesScreen({super.key});

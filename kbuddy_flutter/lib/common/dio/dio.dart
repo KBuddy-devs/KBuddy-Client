@@ -96,7 +96,8 @@ class Custominterceptor extends Interceptor {
         options.headers.addAll({
           'authorization': 'Bearer $accessToken',
         });
-        storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+        // 비동기 저장
+        await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
         final response = await dio.fetch(options);
 
         return handler.resolve(response);

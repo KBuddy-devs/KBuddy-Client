@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../utils/logger.dart';
+
 part 'base_response_model.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true, anyMap: true)
@@ -26,7 +28,6 @@ class DefaultResponseListModel<T> {
   }
 }
 
-@JsonSerializable(genericArgumentFactories: true, anyMap: true)
 class DefaultResponseModel<T> {
   final String message;
   final Map<String, dynamic> meta;
@@ -45,3 +46,23 @@ class DefaultResponseModel<T> {
     );
   }
 }
+
+// @JsonSerializable(genericArgumentFactories: true, anyMap: true)
+// class DefaultResponseModel<T> {
+//   final String message;
+//   final Map<String, dynamic> meta;
+//   final T data;
+//   DefaultResponseModel({
+//     required this.message,
+//     required this.meta,
+//     required this.data,
+//   });
+//   factory DefaultResponseModel.fromJson(Map<String, dynamic> json,
+//       T Function(Map<String, dynamic> json) fromJsonT) {
+//     return DefaultResponseModel<T>(
+//       message: json['message'] as String,
+//       meta: json['meta'] as Map<String, dynamic>,
+//       data: fromJsonT(json['data'] as Map<String, dynamic>),
+//     );
+//   }
+// }
