@@ -107,10 +107,12 @@ class _CreateNewPasswordScreenState
                                   }),
                               const SizedBox(height: 8),
                               if (isPasswordFocused)
-                                PasswordValidationWidget(
-                                    password: passwordController.text,
-                                    confirmPassword:
-                                        confirmPasswordController.text),
+                                ValidationWidget(
+                                  text: passwordController.text,
+                                  confirmPassword:
+                                      confirmPasswordController.text,
+                                  validationType: ValidationType.pwd,
+                                ),
                               const SizedBox(height: 32),
                               CustomTextFormField2(
                                   label: 'Confirm password',
@@ -125,12 +127,11 @@ class _CreateNewPasswordScreenState
                               // isConfirm 값이 false이면 패스워드 일치 여부 확인하는 것 같은데,
                               // 기능 정확하게 동작하는지 여부 확인 필요
                               if (isConfirmPasswordFocused)
-                                PasswordValidationWidget(
-                                    password: confirmPasswordController.text,
+                                ValidationWidget(
+                                    text: confirmPasswordController.text,
                                     confirmPassword:
                                         confirmPasswordController.text,
-                                    isConfirm: false),
-
+                                    validationType: ValidationType.pwdMatch),
                               const SizedBox(height: 16),
                               Center(
                                 child: Padding(

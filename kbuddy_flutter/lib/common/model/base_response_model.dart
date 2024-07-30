@@ -35,8 +35,8 @@ class DefaultResponseModel<T> {
 
   DefaultResponseModel({
     required this.message,
-    this.meta,
-    this.data,
+    required this.meta,
+    required this.data,
   });
 
   factory DefaultResponseModel.fromJson(
