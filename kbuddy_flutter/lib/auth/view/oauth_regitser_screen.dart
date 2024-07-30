@@ -13,11 +13,11 @@ import '../../common/const/typo.dart';
 import '../provider/signup_viewModel.dart';
 
 class OauthRegitserScreen extends ConsumerStatefulWidget {
-  final User user;
+  final String email;
 
   const OauthRegitserScreen({
     super.key,
-    required this.user,
+    required this.email,
   });
 
   @override
@@ -27,7 +27,7 @@ class OauthRegitserScreen extends ConsumerStatefulWidget {
 
 class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
   late TextEditingController emailController =
-      TextEditingController(text: widget.user.kakaoAccount!.email);
+      TextEditingController(text: widget.email);
   final TextEditingController userIdController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -196,7 +196,7 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
               onPressed: () async {
                 await ref.read(userMeProvider.notifier).kakaoRegister(
                     OauthRegisterModel(
-                        email: widget.user.kakaoAccount!.email!,
+                        email: widget.email!,
                         oauth: "KAKAO",
                         userId: userIdController.text,
                         country: state.country,
