@@ -6,11 +6,13 @@ class CustomTextFormField extends StatefulWidget {
   final String label;
   final TextEditingController controller;
   final bool isPassword;
+  final int? length;
 
   const CustomTextFormField({
     required this.label,
     required this.controller,
     this.isPassword = false,
+    this.length = null,
     Key? key,
   }) : super(key: key);
 
@@ -23,6 +25,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller,
+      maxLength: widget.length,
       decoration: InputDecoration(
         labelText: widget.label,
         border: const OutlineInputBorder(),
