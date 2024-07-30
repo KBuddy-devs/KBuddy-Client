@@ -8,7 +8,6 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  checkbox_grouped: ^2.0.0
   cupertino_icons: ^1.0.8
   dio: ^5.5.0+1
   flutter:
