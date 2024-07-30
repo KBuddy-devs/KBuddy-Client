@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/common/provider/route_provider.dart';
 
 import '../../auth/provider/auth_provider.dart';
+import '../utils/logger.dart';
 
 final routerProvider = Provider<GoRouter>(
   (ref) {
@@ -24,6 +26,22 @@ final routerProvider = Provider<GoRouter>(
   },
 );
 
+class GoRouterFunction {
+  static void popUntilPath(BuildContext context, String routePath) {
+    GoRouter router = GoRouter.of(context);
+    logger.i(
+        'route : ${router.routerDelegate.currentConfiguration.matches.last.matchedLocation}');
+    logger.i('routePath : $routePath');
+    while (router
+            .routerDelegate.currentConfiguration.matches.last.matchedLocation !=
+        routePath) {
+      if (!context.canPop()) {
+        return;
+      }
+      context.pop();
+    }
+  }
+}
 // class GoRouterObserver extends NavigatorObserver {
 //   GoRouterObserver({required this.analytics});
 //   final FirebaseAnalytics analytics;

@@ -6,7 +6,7 @@ part of 'reset_password_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$resetPasswordHash() => r'68ab529890f2d49e4f2db4038f49eff0fe637b73';
+String _$resetPasswordHash() => r'3b2534d21965f1d34627dbaf0fa7c5617d17889f';
 
 /// See also [ResetPassword].
 @ProviderFor(ResetPassword)

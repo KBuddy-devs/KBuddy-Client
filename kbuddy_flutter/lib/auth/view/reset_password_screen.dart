@@ -3,18 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/auth/provider/reset_password_provider.dart';
 import 'package:kbuddy_flutter/auth/repository/reset_password_repository.dart';
+import 'package:kbuddy_flutter/auth/view/reset_password_confirm_screen.dart';
 import 'package:kbuddy_flutter/common/component/common_button.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
 import 'package:kbuddy_flutter/common/component/custom_text_form_field2.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
 import 'package:kbuddy_flutter/common/const/typo.dart';
 
+import '../../common/alert/provider/alert_snackbar_provider.dart';
+import '../../common/alert/view/alert_snackbar.dart';
 import '../../common/component/text.dart';
 import '../../common/provider/route_provider.dart';
 import '../../common/utils/logger.dart';
 import '../../user/model/user_model.dart';
 import '../../user/provider/user_me_provider.dart';
-import '../model/email_model.dart';
+import '../model/reset_password_model.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -25,8 +28,6 @@ class ResetPasswordScreen extends ConsumerStatefulWidget {
 
 class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController createController = TextEditingController();
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
     return Scaffold(
       backgroundColor: WHITE,
       appBar: AppBar(
+        backgroundColor: WHITE,
         leading: GestureDetector(
             onTap: () {
               context.pop();
@@ -84,39 +86,15 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                 child: Padding(
                                     padding: const EdgeInsets.all(20),
                                     child: Image.asset(
-                                        'asset/images/email_confirmation.png')),
+                                      'asset/images/email_confirmation.png',
+                                    )),
                               ),
                               CommonButton(
                                   name: "Send link",
                                   function: () async {
-                                    final email =
-                                        EmailModel(email: emailController.text);
-                                    await ref
-                                        .read(resetPasswordProvider.notifier)
-                                        .sendEmail(email);
-                                    if (state is EmailConfirmModel) {
-                                      // 페이지 이동
-                                      context.go(Routes.resetPasswordConfirm);
-                                    }
+                                    await sendEmail();
                                   },
                                   isActivate: emailController.text.isNotEmpty),
-                              // LoginButton(
-                              //     name: "Send link",
-                              //     color: INDIGO_900,
-                              //     function: () {
-                              // state is UserModelLoading
-                              //     ? null
-                              //     : () async {
-                              //         final resp = await ref
-                              //             .read(
-                              //                 userMeProvider.notifier)
-                              //             .login(
-                              //                 emailController.text,
-                              //                 passwordController
-                              //                     .text);
-                              //         logger.i(resp);
-                              //       };
-                              // }),
                               SizedBox(height: 8),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -146,5 +124,49 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
         ),
       ),
     );
+  }
+
+  sendEmail() async {
+    final state = ref.watch(resetPasswordProvider);
+    AlertSnackbarProvider.showAlertSnackbar(
+        message: 'verification code is sent to your email address.',
+        status: AlertSnackbarEnum.success,
+        context: context,
+        position: AlertSnackbarPositionEnum.bottom);
+    final email = EmailModel(email: emailController.text);
+
+    // 로딩 아이콘 표시.
+    showDialog(
+      context: context,
+      // barrierDismissible: false, // 바깥쪽 터치로 닫히지 않도록 설정 가능
+      builder: (BuildContext context) {
+        return Center(
+          child: CircularProgressIndicator(color: PRIMARY_COLOR),
+        );
+      },
+    );
+
+    await ref.read(resetPasswordProvider.notifier).sendEmail(email);
+    logger.i('state :$state');
+
+    // 로딩 아이콘 닫기.
+    Navigator.pop(context);
+    // 임시
+    // 나중에는 로딩 아이콘 보여주면서
+    // email code 정상으로 되면 초록 alert + 화면 넘기고
+    // 비정상이면 빨간 alert + 화면 넘기지 않도록
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ResetPasswordConfirmScreen(),
+      ),
+    );
+    // context.pushNamed(Routes.resetPasswordConfirm);
+    // if (state is EmailConfirmModel) {
+    //   // 페이지 이동
+    //   if (context.mounted) {
+    //     context.go(Routes.resetPasswordConfirm);
+    //   }
+    // }
   }
 }

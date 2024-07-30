@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'email_model.g.dart';
+part 'reset_password_model.g.dart';
 
 @JsonSerializable()
 class EmailModel {
@@ -16,13 +16,25 @@ class EmailModel {
 
 @JsonSerializable()
 class EmailConfirmModel {
-  final String email;
-  final String code;
+  final bool status;
+  final String message;
 
-  EmailConfirmModel({required this.email, required this.code});
+  EmailConfirmModel({required this.status, required this.message});
 
   factory EmailConfirmModel.fromJson(Map<String, dynamic> json) =>
       _$EmailConfirmModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$EmailConfirmModelToJson(this);
+}
+
+@JsonSerializable()
+class ResetPasswordModel {
+  final String password;
+
+  ResetPasswordModel({required this.password});
+
+  factory ResetPasswordModel.fromJson(Map<String, dynamic> json) =>
+      _$ResetPasswordModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ResetPasswordModelToJson(this);
 }

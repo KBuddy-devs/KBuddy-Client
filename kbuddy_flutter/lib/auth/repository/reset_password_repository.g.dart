@@ -19,15 +19,15 @@ class _ResetPasswordRepository implements ResetPasswordRepository {
   String? baseUrl;
 
   @override
-  Future<DefaultResponseModel<EmailConfirmModel>> sendPasswordResetEmail(
+  Future<EmailConfirmModel> sendPasswordResetEmail(
       {required EmailModel emailModel}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(emailModel.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DefaultResponseModel<EmailConfirmModel>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EmailConfirmModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -43,10 +43,36 @@ class _ResetPasswordRepository implements ResetPasswordRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = DefaultResponseModel<EmailConfirmModel>.fromJson(
-      _result.data!,
-      (json) => EmailConfirmModel.fromJson(json as Map<String, dynamic>),
-    );
+    final value = EmailConfirmModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<EmailConfirmModel> sendNewPassword(
+      {required ResetPasswordModel resetPasswordModel}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(resetPasswordModel.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EmailConfirmModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/auth/password',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = EmailConfirmModel.fromJson(_result.data!);
     return value;
   }
 

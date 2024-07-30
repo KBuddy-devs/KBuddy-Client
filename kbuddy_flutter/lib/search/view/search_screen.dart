@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kbuddy_flutter/common/view/bottom_navbar.dart';
-import 'package:kbuddy_flutter/common/view/top_appbar.dart';
+import 'package:kbuddy_flutter/common/appbar/appbar_logo.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
