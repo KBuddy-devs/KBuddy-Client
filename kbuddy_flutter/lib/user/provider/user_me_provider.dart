@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:kbuddy_flutter/auth/model/oauth_register_model.dart';
+import 'package:kbuddy_flutter/auth/view/oauth_regitser_screen.dart';
 
 import '../../auth/repository/auth_repository.dart';
 import '../../common/const/data.dart';
@@ -76,16 +79,69 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       // 그리고 내 정보인 UserModel을 받아온다.
       final userRes = await repo.getMe();
       state = userRes;
-      // return userRes;
-      UserModel userTmp = UserModel(id: id, role: id);
-      logger.e('end');
-      state = userTmp;
-      return userTmp;
+      return userRes;
     } catch (e) {
       state = null;
       logger.e('error : $e');
 
       return UserModelError(message: '로그인 실패');
+    }
+  }
+
+  Future<void> kakaoLogin(BuildContext context) async {
+    try {
+      state = UserModelLoading();
+      final user = await authRepo.kakaoHandler();
+      logger.i(user.connectedAt);
+      final hasLogin =
+          await authRepo.hasOauthLogin(user.kakaoAccount!.email, 'KAKAO');
+      if (hasLogin.status) {
+        logger.i("인증된 사용자 입니다");
+        final email = user.kakaoAccount!.email!;
+        final resp = await authRepo.kakaoLogin(email, 'KAKAO');
+        // 새로 받은 토큰 저장
+        await Future.wait([
+          storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken),
+          storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken),
+        ]);
+        final userResp = await repo.getMe();
+        state = userResp;
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OauthRegitserScreen(user: user),
+          ),
+        );
+      }
+      // 로그인 시, 현재 유저의 정보 가져오기
+      // `getMe` 를 하며 서버에서 token 의 유효성 검증
+    } catch (e) {
+      // 로그인 실패 더 자세히 처리해야 함.
+      state = UserModelError(message: '로그인에 실패하였습니다.');
+      print(e);
+      return Future.value(state);
+    }
+  }
+
+  Future<void> kakaoRegister(OauthRegisterModel model) async {
+    try {
+      state = UserModelLoading();
+      final resp = await authRepo.kakaoRegister(model);
+      // 새로 받은 토큰 저장
+      await Future.wait([
+        storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken),
+        storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken),
+      ]);
+      final userResp = await repo.getMe();
+      state = userResp;
+      // 로그인 시, 현재 유저의 정보 가져오기
+      // `getMe` 를 하며 서버에서 token 의 유효성 검증
+    } catch (e) {
+      // 로그인 실패 더 자세히 처리해야 함.
+      state = UserModelError(message: '로그인에 실패하였습니다.');
+      print(e);
+      return Future.value(state);
     }
   }
 

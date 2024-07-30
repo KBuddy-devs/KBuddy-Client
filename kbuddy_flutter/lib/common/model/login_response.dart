@@ -24,9 +24,16 @@ part 'login_response.g.dart';
 class LoginResponse {
   final String refreshToken;
   final String accessToken;
+  final int accessTokenExpireTime;
+  final int refreshTokenExpireTime;
 
-  LoginResponse({required this.accessToken, required this.refreshToken});
+  LoginResponse(
+      {required this.accessToken,
+      required this.refreshToken,
+      required this.accessTokenExpireTime,
+      required this.refreshTokenExpireTime});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 }

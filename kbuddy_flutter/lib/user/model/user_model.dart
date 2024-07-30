@@ -15,37 +15,32 @@ class UserModelLoading extends UserModelBase {}
 
 @JsonSerializable()
 class UserModel extends UserModelBase {
-  final String id;
-  final String role;
-  final String? email;
-  final String? phoneNumber;
-  final String? nickname;
-  final DateTime? createdAt;
-  final bool? quit;
+  final int id;
+  final String userId;
+  final String email;
+  final List<String> roles;
+  final String? profileImageUrl;
+  final String? bio;
+  final String firstName;
+  final String lastName;
+  final DateTime createdDate;
+  final bool? isActive;
   final String? country;
-  final String? sex;
-  final String? introduce;
-  final int? point;
-  final dynamic? profileImage;
-  final int? followers;
-  final int? followings;
+  final String? gender;
 
-  UserModel({
-    required this.id,
-    required this.role,
-    this.email,
-    this.phoneNumber,
-    this.nickname,
-    this.createdAt,
-    this.quit,
-    this.country,
-    this.sex,
-    this.introduce,
-    this.point,
-    this.profileImage,
-    this.followers,
-    this.followings,
-  });
+  UserModel(
+      {required this.id,
+      required this.userId,
+      required this.email,
+      required this.roles,
+      this.profileImageUrl,
+      this.bio,
+      required this.firstName,
+      required this.lastName,
+      required this.createdDate,
+      required this.isActive,
+      required this.country,
+      required this.gender});
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 }

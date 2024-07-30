@@ -16,8 +16,7 @@ class Routes {
   static const splash = '/splash';
   static const login = '/login';
   static const resetPassword = '/resetPassword';
-  static const resetPasswordConfirm = 'resetPasswordConfirm';
-  static const createNewPassword = 'createNewPassword';
+  static const resetPasswordConfirm = '/resetPasswordConfirm';
 
   static List<GoRoute> get routes => [
         GoRoute(
@@ -41,15 +40,6 @@ class Routes {
           builder: (context, state) => const LoginScreen(),
         ),
         GoRoute(
-          path: '/confirm',
-          name: 'confirm',
-          builder: (context, state) => const ConfirmScreen(),
-        ),
-        GoRoute(
-            path: '/signup',
-            name: 'signup',
-            builder: (context, state) => const SignUpScreen()),
-        GoRoute(
           path: '/resetPassword',
           name: 'resetPassword',
           builder: (context, state) => const ResetPasswordScreen(),
@@ -59,12 +49,16 @@ class Routes {
               name: 'resetPasswordConfirm',
               builder: (context, state) => const ResetPasswordConfirmScreen(),
             ),
-            GoRoute(
-              path: 'createNewPassword',
-              name: 'createNewPassword',
-              builder: (context, state) => const CreateNewPasswordScreen(),
-            ),
           ],
         ),
+        GoRoute(
+          path: '/confirm',
+          name: 'confirm',
+          builder: (context, state) => const ConfirmScreen(),
+        ),
+        GoRoute(
+            path: '/signup',
+            name: 'signup',
+            builder: (context, state) => const SignUpScreen())
       ];
 }
