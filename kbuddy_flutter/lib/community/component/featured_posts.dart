@@ -31,12 +31,26 @@ class TestScreen extends ConsumerStatefulWidget {
 class _TestScreenState extends ConsumerState<TestScreen> {
   @override
   Widget build(BuildContext context) {
+    final sampleFeaturedPosts = List.generate(3, (index) {
+      return Post(
+        author: 'Author $index',
+        date: 'Date',
+        title: 'Title of the question goes here.',
+        content:
+            'Lorem ipsum dolor sit amet consectetur. Suscipit non est sit a volutpat in. Sapien dictum blandit tellus ornare est purus.',
+        likes: 3,
+        comments: 1,
+        id: '1',
+        imageUrl: '',
+      );
+    });
     final samplePosts = List.generate(10, (index) {
       return Post(
         author: 'Author $index',
         date: 'Date',
         title: 'Title of the question goes here.',
-        content: 'Lorem ipsum dolor sit amet consectetur. Suscipit non est sit a volutpat in. Sapien dictum blandit tellus ornare est purus.',
+        content:
+            'Lorem ipsum dolor sit amet consectetur. Suscipit non est sit a volutpat in. Sapien dictum blandit tellus ornare est purus.',
         likes: 3,
         comments: 1,
         id: '1',
@@ -44,14 +58,8 @@ class _TestScreenState extends ConsumerState<TestScreen> {
       );
     });
 
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     double baseWidth = 360.0;
     double baseHeight = 640.0;
@@ -62,6 +70,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
     double paddingHorizontal = 16.0 * scaleWidth;
     double paddingVertical = 16.0 * scaleHeight;
     double spacingBaseUnit10 = 10.0 * scaleHeight;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -76,47 +85,70 @@ class _TestScreenState extends ConsumerState<TestScreen> {
           style: TextStyle(fontSize: 20.0 * scaleHeight),
         ),
       ),
-      body: ListView.separated(
-          itemCount: samplePosts.length,
-          itemBuilder: (context, index) {
-            return PostCard(post: samplePosts[index]);
-          },
-        separatorBuilder: (context, index){
-            return Divider(
-              color: Colors.grey[300], // 구분선 색상 설정
-              thickness: 1.0, // 구분선 두께 설정
-              height: 1.0, // 구분선 높이 설정,
-            );
-        }
-      // 다른 PostCard 위젯을 추가할 수 있습니다.
-    ),);
+      body: Column(
+        children: [
+          //FeaturedPosts(),//posts: sampleFeaturedPosts
+          Expanded(
+            child: ListView.separated(
+                itemCount: samplePosts.length,
+                itemBuilder: (context, index) {
+                  return PostCard(post: samplePosts[index]);
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    color: Colors.grey[300], // 구분선 색상 설정
+                    thickness: 1.0, // 구분선 두께 설정
+                    height: 1.0, // 구분선 높이 설정,
+                  );
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+class FeaturedPosts extends StatelessWidget {
+  final List<Post> posts;
 
-    throw
-    UnimplementedError
-    (
+  FeaturedPosts({super.key, required this.posts});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return Container(
+            width: 300,
+            margin: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+//여기서 새로운 component 생성해서 넣어야 할 거 같음.
+                ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
 
-// class PostList extends ConsumerWidget {
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final posts = ref.watch(postsProvider);
-//     return posts.when(
-//       loading: () => CircularProgressIndicator(),
-//       error: (err, stack) => Text('Error: $err'),
-//       data: (posts) => ListView.builder(
-//         itemCount: posts.length,
-//         itemBuilder: (context, index) {
-//           if (index >= posts.length - 1) {
-//             ref.read(postsProvider.notifier).loadMore();
-//           }
-//           return PostCard(post: posts[index]);
-//         },
-//       ),
-//     );
-//   }
-// }
+
 
 class PostCard extends StatelessWidget {
   final Post post;
@@ -141,13 +173,18 @@ class PostCard extends StatelessWidget {
             subtitle: Text(post.date),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16.0), // 텍스트에 좌측 마진 추가
-            child: FlexText(content: post.title, textStyle: title300Medium,)
-          ),
+              padding: const EdgeInsets.only(left: 16.0), // 텍스트에 좌측 마진 추가
+              child: FlexText(
+                content: post.title,
+                textStyle: title300Medium,
+              )),
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0), // 텍스트에 좌측 마진 추가
-            child: FlexText(content: post.content, textStyle: body200Light,)
-          ),
+              padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+              // 텍스트에 좌측 마진 추가
+              child: FlexText(
+                content: post.content,
+                textStyle: body200Light,
+              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
