@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kbuddy_flutter/auth/model/auth_response.dart';
@@ -157,11 +156,13 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
   void updatePassword(String password) {
     state = state.copyWith(password: password);
     _updatePasswordValidity();
+    _updateFormValidity();
   }
 
   void updateConfirmPassword(String confirmPassword) {
     state = state.copyWith(confirmPassword: confirmPassword);
     _updateConfirmPasswordValidity(confirmPassword);
+    _updateFormValidity();
   }
 
   // 유효성 Update 하는 메서드
@@ -176,20 +177,20 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
 
   void _updatePasswordValidity() {
     bool isPasswordValid = Validator.hasMinLength(state.password!) &&
-        (Validator.hasUpperCase(state.password!) ||
-            (Validator.hasLowerCase(state.password!) &&
-                Validator.hasDigit(state.password!))) &&
-        Validator.hasUpperCase(state.password!) &&
+        (Validator.hasDigit(state.password!) &&
+            (Validator.hasUpperCase(state.password!) ||
+                Validator.hasLowerCase(state.password!))) &&
         Validator.hasSpecialChar(state.password!) &&
         Validator.isMaxLength(state.password!);
 
     state = state.copyWith(isPasswordValid: isPasswordValid);
+    logger.i("passwordValidity: ${state.isPasswordValid}");
     _updateFormValidity();
   }
 
   void _updateConfirmPasswordValidity(String confirmPassword) {
-    bool isConfirmPasswordValid = Validator.passwordsMatch(
-        state.password!, state.confirmPassword!);
+    bool isConfirmPasswordValid =
+        Validator.passwordsMatch(state.password!, state.confirmPassword!);
     state = state.copyWith(isConfirmPasswordValid: isConfirmPasswordValid);
     _updateFormValidity();
   }
@@ -201,6 +202,11 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
         state.isPasswordValid &&
         state.isConfirmPasswordValid;
     state = state.copyWith(isFormValid: isFormValid);
+    logger.i("fname: ${state.firstName}\n"
+        "lname: ${state.lastName}\n"
+        "email: ${state.email}\n"
+        "isFormValid: $isFormValid \n"
+        "isPasswordValid: ${state.isPasswordValid}");
   }
 
   Future<void> signUp() async {
@@ -216,7 +222,9 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
       };
       logger.i('requestBody $requestBody');
       try {
-        final AuthResponse response = await _signupApi.signUp(body: requestBody);
+        final AuthResponse response =
+            await _signupApi.signUp(body: requestBody);
+
         /// response로 토큰 2개 받는다
         /// 토큰을 관리해 주는 코드를 여기에 삽입하여 수정 필요.
         await _storage.write(
