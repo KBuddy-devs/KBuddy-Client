@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utils/password_validator.dart';
+import '../utils/validator.dart';
 
-class PasswordValidationWidget extends ConsumerWidget {
-  final String password;
+enum ValidationType { pwd, pwdMatch, fName, lName, email, id }
+
+class ValidationWidget extends ConsumerWidget {
+  final String text;
   final String confirmPassword;
-  final bool isConfirm;
+  final ValidationType validationType;
 
-  const PasswordValidationWidget({
+  const ValidationWidget({
     super.key,
-    required this.password,
-    required this.confirmPassword,
-    this.isConfirm = true,
+    required this.text,
+    this.confirmPassword = '',
+    required this.validationType,
   });
 
   @override
@@ -20,39 +23,59 @@ class PasswordValidationWidget extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isConfirm != false) ...[
+        if (validationType == ValidationType.pwd) ...[
           _buildValidationRow(
             context,
-            "At least 12 characters.",
-            PasswordValidator.hasMinLength(password),
+            "At least 8 characters.",
+            Validator.hasMinLength(text),
           ),
           _buildValidationRow(
             context,
             "Combination of letters and numbers.",
-            PasswordValidator.hasUpperCase(password) ||
-                PasswordValidator.hasLowerCase(password) &&
-                    PasswordValidator.hasDigit(password),
-          ),
-          _buildValidationRow(
-            context,
-            "At least 1 uppercase letter.",
-            PasswordValidator.hasUpperCase(password),
+            Validator.hasUpperCase(text) ||
+                Validator.hasLowerCase(text) && Validator.hasDigit(text),
           ),
           _buildValidationRow(
             context,
             "At least 1 symbol.",
-            PasswordValidator.hasSpecialChar(password),
+            Validator.hasSpecialChar(text),
           ),
           _buildValidationRow(
             context,
             "No more than 30 letters.",
-            PasswordValidator.isMaxLength(password),
+            Validator.isMaxLength(text),
           ),
-        ] else ...[
+        ] else if (validationType == ValidationType.pwdMatch) ...[
           _buildValidationRow(
             context,
             "Matching password.",
-            PasswordValidator.passwordsMatch(password, confirmPassword),
+            Validator.passwordsMatch(text, confirmPassword),
+          )
+        ] else if (validationType == ValidationType.email) ...[
+          _buildValidationRow(
+              context, "Invalid Email Format", Validator.isValidEmail(text))
+        ] else if (validationType == ValidationType.id) ...[
+          _buildValidationRow(
+            context,
+            "At least 3 letters",
+            Validator.isMinLengthId(text),
+          ),
+          _buildValidationRow(
+            context,
+            "No more than 20 letters",
+            Validator.isMaxLengthId(text),
+          )
+        ] else if (validationType == ValidationType.fName) ...[
+          _buildValidationRow(
+            context,
+            "No more than 30 letters",
+            Validator.isMaxLengthId(text),
+          )
+        ] else if (validationType == ValidationType.lName) ...[
+          _buildValidationRow(
+            context,
+            "No more than 30 letters",
+            Validator.isMaxLengthId(text),
           )
         ]
       ],

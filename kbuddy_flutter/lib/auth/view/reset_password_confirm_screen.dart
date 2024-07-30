@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/auth/provider/reset_password_provider.dart';
-import 'package:kbuddy_flutter/auth/repository/reset_password_repository.dart';
+import 'package:kbuddy_flutter/auth/view/create_new_password_screen.dart';
+import 'package:kbuddy_flutter/common/alert/view/alert_snackbar.dart';
 import 'package:kbuddy_flutter/common/component/common_button.dart';
-import 'package:kbuddy_flutter/common/component/login_button.dart';
 import 'package:kbuddy_flutter/common/component/custom_text_form_field2.dart';
 import 'package:kbuddy_flutter/common/const/colors.dart';
 import 'package:kbuddy_flutter/common/const/typo.dart';
 
+import '../../common/alert/provider/alert_snackbar_provider.dart';
 import '../../common/component/text.dart';
-import '../../common/utils/logger.dart';
-import '../../user/model/user_model.dart';
-import '../../user/provider/user_me_provider.dart';
-import '../model/email_model.dart';
+import '../model/reset_password_model.dart';
 
 class ResetPasswordConfirmScreen extends ConsumerStatefulWidget {
   const ResetPasswordConfirmScreen({super.key});
@@ -25,25 +24,36 @@ class ResetPasswordConfirmScreen extends ConsumerStatefulWidget {
 class _ResetPasswordConfirmScreenState
     extends ConsumerState<ResetPasswordConfirmScreen> {
   final TextEditingController codeController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController newPasswordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     codeController.addListener(() {
-      setState(() {});
+      setState(() {
+        if (codeController.text.length >= 6) {}
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(resetPasswordProvider);
+    final String? serverStatus = state?.status.toString();
+    final String? serverMessage = state?.message.toString();
+    // if (serverCode == null) {
+    //   AlertSnackbarProvider.showAlertSnackbar(message: 'Please send the email again.', status: AlertSnackbarEnum.error, context: context, position: AlertSnackbarPositionEnum.bottom);
+    //   context.pop();
+    // }
 
     return Scaffold(
       backgroundColor: WHITE,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_outlined),
+        backgroundColor: WHITE,
+        leading: GestureDetector(
+            onTap: () {
+              context.pop();
+            },
+            child: Icon(Icons.arrow_back_outlined)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -62,18 +72,19 @@ class _ResetPasswordConfirmScreenState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               FlexText(
-                                  content: 'Reset password',
+                                  content: 'Enter the confirmation code',
                                   textStyle: title100Medium),
                               SizedBox(height: 8),
                               FlexText(
                                   content:
-                                      'Please enter your email address to request a link to password reset.',
+                                      'Confirmation sent. To continue, enter the 6-digit code we sent to your email.',
                                   textStyle: body100Light),
                               SizedBox(height: 16),
                               CustomTextFormField2(
-                                label: 'Email',
+                                label: 'Confirmation code',
                                 controller: codeController,
-                                hintText: 'Enter your email here',
+                                hintText: '123456',
+                                isNumericOnly: true,
                               ),
                               SizedBox(height: 16),
                               Center(
@@ -83,19 +94,12 @@ class _ResetPasswordConfirmScreenState
                                         'asset/images/email_confirmation.png')),
                               ),
                               CommonButton(
-                                name: "Send link",
+                                name: "Next",
                                 function: () async {
-                                  // final email =
-                                  //     EmailModel(email: emailController.text);
-                                  // await ref
-                                  //     .read(resetPasswordProvider.notifier)
-                                  //     .sendEmail(email);
-                                  if (state is EmailConfirmModel) {
-                                    // 페이지 이동
-                                  }
+                                  await checkCode(serverStatus, serverMessage);
+                                  // code 일치 여부 확인 후 맞으면 패스워드 재설정 화면으로 이동
                                 },
-                                isActivate: true,
-                                // isActivate: emailController.text.isNotEmpty
+                                isActivate: codeController.text.length >= 5,
                               ),
                               // LoginButton(
                               //     name: "Send link",
@@ -115,20 +119,15 @@ class _ResetPasswordConfirmScreenState
                               //       };
                               // }),
                               SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  FlexText(
-                                      content: 'Remember your password?',
-                                      textStyle: body200Medium),
-                                  SizedBox(width: 5),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: FlexText(
-                                        content: 'Log in',
-                                        textStyle: btn200Lined),
-                                  ),
-                                ],
+                              Center(
+                                child: TextButton(
+                                  onPressed: () {
+                                    // 이메일 재전송
+                                  },
+                                  child: FlexText(
+                                      content: "I didn't get the code",
+                                      textStyle: btn200Lined),
+                                ),
                               ),
                             ],
                           ),
@@ -143,5 +142,32 @@ class _ResetPasswordConfirmScreenState
         ),
       ),
     );
+  }
+
+  Future<void> checkCode(String? serverStatus, String? serverMessage) async {
+    if (serverStatus == 'true') {
+      if (codeController.text.toString() == serverMessage) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CreateNewPasswordScreen(),
+          ),
+        );
+      } else {
+        // code 인증 잘못됨
+        AlertSnackbarProvider.showAlertSnackbar(
+            message: 'confirmation code is wrong.',
+            status: AlertSnackbarEnum.error,
+            context: context,
+            position: AlertSnackbarPositionEnum.bottom);
+      }
+    } else {
+      context.pop();
+      AlertSnackbarProvider.showAlertSnackbar(
+          message: 'try again.',
+          status: AlertSnackbarEnum.error,
+          context: context,
+          position: AlertSnackbarPositionEnum.bottom);
+    }
   }
 }

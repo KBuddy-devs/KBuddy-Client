@@ -38,8 +38,8 @@ class Custominterceptor extends Interceptor {
 
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
+      // 비동기 read
       final token = await storage.read(key: ACCESS_TOKEN_KEY);
-      logger.i(token);
       // 헤더 토큰을 실제 값으로 넣어준다.
       options.headers.addAll({
         'Content-Type': 'application/json',
@@ -96,7 +96,8 @@ class Custominterceptor extends Interceptor {
         options.headers.addAll({
           'authorization': 'Bearer $accessToken',
         });
-        storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+        // 비동기 저장
+        await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
         final response = await dio.fetch(options);
 
         return handler.resolve(response);
