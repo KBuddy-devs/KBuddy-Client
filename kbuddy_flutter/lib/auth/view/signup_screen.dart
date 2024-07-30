@@ -235,7 +235,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               onChanged: (text) {
                 signUpViewModel.updateEmail(text);
               },
-              canChange: false,
+              // canChange: false,
             ),
             SizedBox(height: spacingBaseUnit10),
 
