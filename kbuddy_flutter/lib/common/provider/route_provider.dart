@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:kbuddy_flutter/auth/view/create_new_password_screen.dart';
 import 'package:kbuddy_flutter/auth/view/login_screen.dart';
 import 'package:kbuddy_flutter/auth/view/reset_password_screen.dart';
 
@@ -14,6 +15,7 @@ class Routes {
   static const login = '/login';
   static const resetPassword = '/resetPassword';
   static const resetPasswordConfirm = 'resetPasswordConfirm';
+  static const createNewPassword = 'createNewPassword';
 
   static List<GoRoute> get routes => [
         GoRoute(
@@ -45,6 +47,11 @@ class Routes {
               path: 'resetPasswordConfirm',
               name: 'resetPasswordConfirm',
               builder: (context, state) => const ResetPasswordConfirmScreen(),
+            ),
+            GoRoute(
+              path: 'createNewPassword',
+              name: 'createNewPassword',
+              builder: (context, state) => const CreateNewPasswordScreen(),
             ),
           ],
         ),

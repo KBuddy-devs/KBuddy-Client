@@ -33,7 +33,14 @@ class AuthProvider extends ChangeNotifier {
 
   String? redirectLogic(BuildContext context, GoRouterState state) {
     print('redirect시작');
-    // return '/resetPassword';
+    // reset password 테스트 위한 코드
+    logger.i('state : ${state.toString()}');
+    logger.i('name : ${state.uri}');
+    logger.i('path : ${state.fullPath}');
+    if (state.name != null && state.name!.contains('resetPassword')) {
+      return state.path;
+    }
+    // return '/';
     final UserModelBase? user = ref.read(userMeProvider);
     print(user);
     // 로그인 화면의 상태인 경우
