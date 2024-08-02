@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'postbox_repository.dart';
+part of 'post_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'postbox_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _PostBoxRepository implements PostBoxRepository {
-  _PostBoxRepository(
+class _PostRepository implements PostRepository {
+  _PostRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -19,27 +19,21 @@ class _PostBoxRepository implements PostBoxRepository {
   String? baseUrl;
 
   @override
-  Future<DefaultResponseModel<List<PostBox>>> fetchPostBox({
-    String? cursor,
-    required int limit,
-  }) async {
+  Future<PaginationResponse> fetchItems({int? page}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'cursor': cursor,
-      r'limit': limit,
-    };
+    final queryParameters = <String, dynamic>{r'page': page};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DefaultResponseModel<List<PostBox>>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<PaginationResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/postbox',
+              '/qna/list',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -48,14 +42,7 @@ class _PostBoxRepository implements PostBoxRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = DefaultResponseModel<List<PostBox>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<PostBox>((i) => PostBox.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
+    final value = PaginationResponse.fromJson(_result.data!);
     return value;
   }
 
