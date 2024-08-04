@@ -35,7 +35,7 @@ class Custominterceptor extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     // TODO: implement onRequest
     print('[REQ] [${options.method}] ${options.uri}');
-
+    // 기존 토큰 들고 오는 로직 (flutterStorage 에서 들고 옴)
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
       final token = await storage.read(key: ACCESS_TOKEN_KEY);
@@ -55,12 +55,20 @@ class Custominterceptor extends Interceptor {
             'CourseMate/1.0.0 (Android 10; SM-G950U Build/R16NW) Flutter/2.2.1 Dart/2.13.0'
       });
     }
+    // 하드코딩된 토큰을 추가하는 부분.
+    //   options.headers.addAll({
+    //   'Content-Type': 'application/json',
+    //   'Accept': 'application/json',
+    //   'Authorization': 'Bearer your_access_token_here', // 여기서 하드코딩된 토큰을 넣습니다.
+    //   'User-Agent': 'asfd'
+    // });
     return super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     // TODO: implement onResponse
+    logger.i('[RES] [${response.requestOptions.method} ${response.requestOptions.uri}]');
     print(
         '[RES] [${response.requestOptions.method} ${response.requestOptions.uri}]');
     super.onResponse(response, handler);
@@ -69,6 +77,8 @@ class Custominterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     // TODO: implement onError
+    logger.i('[ERROR] [${err.requestOptions.method} ${err.requestOptions.uri}]');
+
     print('[RES] [${err.requestOptions.method} ${err.requestOptions.uri}]');
 
     final refreshtoken = await storage.read(key: REFRESH_TOKEN_KEY);

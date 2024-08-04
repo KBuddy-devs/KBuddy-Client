@@ -20,18 +20,22 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PostModel {
-  String get id => throw _privateConstructorUsedError;
-  String get writerId => throw _privateConstructorUsedError;
-  String get categoryId => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get content => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+  String? get writerId => throw _privateConstructorUsedError;
+  int get categoryId => throw _privateConstructorUsedError;
+  String? get title =>
+      throw _privateConstructorUsedError; // required String content,
+  String? get description => throw _privateConstructorUsedError;
   int get viewCount => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get modifiedAt => throw _privateConstructorUsedError;
-  bool get remove => throw _privateConstructorUsedError;
-  List<FileModel> get file => throw _privateConstructorUsedError;
+  bool get remove =>
+      throw _privateConstructorUsedError; // List<FileModel>? file,
+  List<FileModel>? get file =>
+      throw _privateConstructorUsedError; // required List<CommentModel> comments,
   List<CommentModel> get comments => throw _privateConstructorUsedError;
-  int get likes => throw _privateConstructorUsedError;
+  int get likeCount => throw _privateConstructorUsedError;
+  List<LikeModel> get likes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,18 +49,19 @@ abstract class $PostModelCopyWith<$Res> {
       _$PostModelCopyWithImpl<$Res, PostModel>;
   @useResult
   $Res call(
-      {String id,
-      String writerId,
-      String categoryId,
-      String title,
-      String content,
+      {int id,
+      String? writerId,
+      int categoryId,
+      String? title,
+      String? description,
       int viewCount,
       DateTime createdAt,
       DateTime modifiedAt,
       bool remove,
-      List<FileModel> file,
+      List<FileModel>? file,
       List<CommentModel> comments,
-      int likes});
+      int likeCount,
+      List<LikeModel> likes});
 }
 
 /// @nodoc
@@ -73,39 +78,40 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
   @override
   $Res call({
     Object? id = null,
-    Object? writerId = null,
+    Object? writerId = freezed,
     Object? categoryId = null,
-    Object? title = null,
-    Object? content = null,
+    Object? title = freezed,
+    Object? description = freezed,
     Object? viewCount = null,
     Object? createdAt = null,
     Object? modifiedAt = null,
     Object? remove = null,
-    Object? file = null,
+    Object? file = freezed,
     Object? comments = null,
+    Object? likeCount = null,
     Object? likes = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      writerId: null == writerId
+              as int,
+      writerId: freezed == writerId
           ? _value.writerId
           : writerId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as int,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: null == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
       viewCount: null == viewCount
           ? _value.viewCount
           : viewCount // ignore: cast_nullable_to_non_nullable
@@ -122,18 +128,22 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.remove
           : remove // ignore: cast_nullable_to_non_nullable
               as bool,
-      file: null == file
+      file: freezed == file
           ? _value.file
           : file // ignore: cast_nullable_to_non_nullable
-              as List<FileModel>,
+              as List<FileModel>?,
       comments: null == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<CommentModel>,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
       likes: null == likes
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
-              as int,
+              as List<LikeModel>,
     ) as $Val);
   }
 }
@@ -147,18 +157,19 @@ abstract class _$$PostModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      String writerId,
-      String categoryId,
-      String title,
-      String content,
+      {int id,
+      String? writerId,
+      int categoryId,
+      String? title,
+      String? description,
       int viewCount,
       DateTime createdAt,
       DateTime modifiedAt,
       bool remove,
-      List<FileModel> file,
+      List<FileModel>? file,
       List<CommentModel> comments,
-      int likes});
+      int likeCount,
+      List<LikeModel> likes});
 }
 
 /// @nodoc
@@ -173,39 +184,40 @@ class __$$PostModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? writerId = null,
+    Object? writerId = freezed,
     Object? categoryId = null,
-    Object? title = null,
-    Object? content = null,
+    Object? title = freezed,
+    Object? description = freezed,
     Object? viewCount = null,
     Object? createdAt = null,
     Object? modifiedAt = null,
     Object? remove = null,
-    Object? file = null,
+    Object? file = freezed,
     Object? comments = null,
+    Object? likeCount = null,
     Object? likes = null,
   }) {
     return _then(_$PostModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      writerId: null == writerId
+              as int,
+      writerId: freezed == writerId
           ? _value.writerId
           : writerId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as int,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: null == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
       viewCount: null == viewCount
           ? _value.viewCount
           : viewCount // ignore: cast_nullable_to_non_nullable
@@ -222,18 +234,22 @@ class __$$PostModelImplCopyWithImpl<$Res>
           ? _value.remove
           : remove // ignore: cast_nullable_to_non_nullable
               as bool,
-      file: null == file
+      file: freezed == file
           ? _value._file
           : file // ignore: cast_nullable_to_non_nullable
-              as List<FileModel>,
+              as List<FileModel>?,
       comments: null == comments
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<CommentModel>,
-      likes: null == likes
-          ? _value.likes
-          : likes // ignore: cast_nullable_to_non_nullable
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
+      likes: null == likes
+          ? _value._likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<LikeModel>,
     ));
   }
 }
@@ -243,33 +259,36 @@ class __$$PostModelImplCopyWithImpl<$Res>
 class _$PostModelImpl implements _PostModel {
   _$PostModelImpl(
       {required this.id,
-      required this.writerId,
+      this.writerId,
       required this.categoryId,
-      required this.title,
-      required this.content,
+      this.title,
+      this.description,
       required this.viewCount,
       required this.createdAt,
       required this.modifiedAt,
       required this.remove,
-      required final List<FileModel> file,
-      required final List<CommentModel> comments,
-      required this.likes})
+      final List<FileModel>? file = const [],
+      final List<CommentModel> comments = const [],
+      required this.likeCount,
+      final List<LikeModel> likes = const []})
       : _file = file,
-        _comments = comments;
+        _comments = comments,
+        _likes = likes;
 
   factory _$PostModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostModelImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
-  final String writerId;
+  final String? writerId;
   @override
-  final String categoryId;
+  final int categoryId;
   @override
-  final String title;
+  final String? title;
+// required String content,
   @override
-  final String content;
+  final String? description;
   @override
   final int viewCount;
   @override
@@ -278,16 +297,24 @@ class _$PostModelImpl implements _PostModel {
   final DateTime modifiedAt;
   @override
   final bool remove;
-  final List<FileModel> _file;
+// List<FileModel>? file,
+  final List<FileModel>? _file;
+// List<FileModel>? file,
   @override
-  List<FileModel> get file {
+  @JsonKey()
+  List<FileModel>? get file {
+    final value = _file;
+    if (value == null) return null;
     if (_file is EqualUnmodifiableListView) return _file;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_file);
+    return EqualUnmodifiableListView(value);
   }
 
+// required List<CommentModel> comments,
   final List<CommentModel> _comments;
+// required List<CommentModel> comments,
   @override
+  @JsonKey()
   List<CommentModel> get comments {
     if (_comments is EqualUnmodifiableListView) return _comments;
     // ignore: implicit_dynamic_type
@@ -295,11 +322,19 @@ class _$PostModelImpl implements _PostModel {
   }
 
   @override
-  final int likes;
+  final int likeCount;
+  final List<LikeModel> _likes;
+  @override
+  @JsonKey()
+  List<LikeModel> get likes {
+    if (_likes is EqualUnmodifiableListView) return _likes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_likes);
+  }
 
   @override
   String toString() {
-    return 'PostModel(id: $id, writerId: $writerId, categoryId: $categoryId, title: $title, content: $content, viewCount: $viewCount, createdAt: $createdAt, modifiedAt: $modifiedAt, remove: $remove, file: $file, comments: $comments, likes: $likes)';
+    return 'PostModel(id: $id, writerId: $writerId, categoryId: $categoryId, title: $title, description: $description, viewCount: $viewCount, createdAt: $createdAt, modifiedAt: $modifiedAt, remove: $remove, file: $file, comments: $comments, likeCount: $likeCount, likes: $likes)';
   }
 
   @override
@@ -313,7 +348,8 @@ class _$PostModelImpl implements _PostModel {
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.content, content) || other.content == content) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.viewCount, viewCount) ||
                 other.viewCount == viewCount) &&
             (identical(other.createdAt, createdAt) ||
@@ -323,7 +359,9 @@ class _$PostModelImpl implements _PostModel {
             (identical(other.remove, remove) || other.remove == remove) &&
             const DeepCollectionEquality().equals(other._file, _file) &&
             const DeepCollectionEquality().equals(other._comments, _comments) &&
-            (identical(other.likes, likes) || other.likes == likes));
+            (identical(other.likeCount, likeCount) ||
+                other.likeCount == likeCount) &&
+            const DeepCollectionEquality().equals(other._likes, _likes));
   }
 
   @JsonKey(ignore: true)
@@ -334,14 +372,15 @@ class _$PostModelImpl implements _PostModel {
       writerId,
       categoryId,
       title,
-      content,
+      description,
       viewCount,
       createdAt,
       modifiedAt,
       remove,
       const DeepCollectionEquality().hash(_file),
       const DeepCollectionEquality().hash(_comments),
-      likes);
+      likeCount,
+      const DeepCollectionEquality().hash(_likes));
 
   @JsonKey(ignore: true)
   @override
@@ -359,32 +398,33 @@ class _$PostModelImpl implements _PostModel {
 
 abstract class _PostModel implements PostModel {
   factory _PostModel(
-      {required final String id,
-      required final String writerId,
-      required final String categoryId,
-      required final String title,
-      required final String content,
+      {required final int id,
+      final String? writerId,
+      required final int categoryId,
+      final String? title,
+      final String? description,
       required final int viewCount,
       required final DateTime createdAt,
       required final DateTime modifiedAt,
       required final bool remove,
-      required final List<FileModel> file,
-      required final List<CommentModel> comments,
-      required final int likes}) = _$PostModelImpl;
+      final List<FileModel>? file,
+      final List<CommentModel> comments,
+      required final int likeCount,
+      final List<LikeModel> likes}) = _$PostModelImpl;
 
   factory _PostModel.fromJson(Map<String, dynamic> json) =
       _$PostModelImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
-  String get writerId;
+  String? get writerId;
   @override
-  String get categoryId;
+  int get categoryId;
   @override
-  String get title;
-  @override
-  String get content;
+  String? get title;
+  @override // required String content,
+  String? get description;
   @override
   int get viewCount;
   @override
@@ -393,12 +433,14 @@ abstract class _PostModel implements PostModel {
   DateTime get modifiedAt;
   @override
   bool get remove;
-  @override
-  List<FileModel> get file;
-  @override
+  @override // List<FileModel>? file,
+  List<FileModel>? get file;
+  @override // required List<CommentModel> comments,
   List<CommentModel> get comments;
   @override
-  int get likes;
+  int get likeCount;
+  @override
+  List<LikeModel> get likes;
   @override
   @JsonKey(ignore: true)
   _$$PostModelImplCopyWith<_$PostModelImpl> get copyWith =>
@@ -413,7 +455,7 @@ FileModel _$FileModelFromJson(Map<String, dynamic> json) {
 mixin _$FileModel {
   int get id => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -426,7 +468,7 @@ abstract class $FileModelCopyWith<$Res> {
   factory $FileModelCopyWith(FileModel value, $Res Function(FileModel) then) =
       _$FileModelCopyWithImpl<$Res, FileModel>;
   @useResult
-  $Res call({int id, String type, String name});
+  $Res call({int id, String type, String url});
 }
 
 /// @nodoc
@@ -444,7 +486,7 @@ class _$FileModelCopyWithImpl<$Res, $Val extends FileModel>
   $Res call({
     Object? id = null,
     Object? type = null,
-    Object? name = null,
+    Object? url = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -455,9 +497,9 @@ class _$FileModelCopyWithImpl<$Res, $Val extends FileModel>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -471,7 +513,7 @@ abstract class _$$FileModelImplCopyWith<$Res>
       __$$FileModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String type, String name});
+  $Res call({int id, String type, String url});
 }
 
 /// @nodoc
@@ -487,7 +529,7 @@ class __$$FileModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? type = null,
-    Object? name = null,
+    Object? url = null,
   }) {
     return _then(_$FileModelImpl(
       id: null == id
@@ -498,9 +540,9 @@ class __$$FileModelImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -510,7 +552,7 @@ class __$$FileModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$FileModelImpl implements _FileModel {
   const _$FileModelImpl(
-      {required this.id, required this.type, required this.name});
+      {required this.id, required this.type, required this.url});
 
   factory _$FileModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$FileModelImplFromJson(json);
@@ -520,11 +562,11 @@ class _$FileModelImpl implements _FileModel {
   @override
   final String type;
   @override
-  final String name;
+  final String url;
 
   @override
   String toString() {
-    return 'FileModel(id: $id, type: $type, name: $name)';
+    return 'FileModel(id: $id, type: $type, url: $url)';
   }
 
   @override
@@ -534,12 +576,12 @@ class _$FileModelImpl implements _FileModel {
             other is _$FileModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.url, url) || other.url == url));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, type, name);
+  int get hashCode => Object.hash(runtimeType, id, type, url);
 
   @JsonKey(ignore: true)
   @override
@@ -559,7 +601,7 @@ abstract class _FileModel implements FileModel {
   const factory _FileModel(
       {required final int id,
       required final String type,
-      required final String name}) = _$FileModelImpl;
+      required final String url}) = _$FileModelImpl;
 
   factory _FileModel.fromJson(Map<String, dynamic> json) =
       _$FileModelImpl.fromJson;
@@ -569,7 +611,7 @@ abstract class _FileModel implements FileModel {
   @override
   String get type;
   @override
-  String get name;
+  String get url;
   @override
   @JsonKey(ignore: true)
   _$$FileModelImplCopyWith<_$FileModelImpl> get copyWith =>
@@ -583,10 +625,10 @@ CommentModel _$CommentModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CommentModel {
   int get id => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   int get qnaId => throw _privateConstructorUsedError;
-  String get writerId => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  bool get remove => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -601,7 +643,11 @@ abstract class $CommentModelCopyWith<$Res> {
       _$CommentModelCopyWithImpl<$Res, CommentModel>;
   @useResult
   $Res call(
-      {int id, int qnaId, String writerId, String description, bool remove});
+      {int id,
+      String userId,
+      int qnaId,
+      String description,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -618,32 +664,32 @@ class _$CommentModelCopyWithImpl<$Res, $Val extends CommentModel>
   @override
   $Res call({
     Object? id = null,
+    Object? userId = null,
     Object? qnaId = null,
-    Object? writerId = null,
     Object? description = null,
-    Object? remove = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
       qnaId: null == qnaId
           ? _value.qnaId
           : qnaId // ignore: cast_nullable_to_non_nullable
               as int,
-      writerId: null == writerId
-          ? _value.writerId
-          : writerId // ignore: cast_nullable_to_non_nullable
-              as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      remove: null == remove
-          ? _value.remove
-          : remove // ignore: cast_nullable_to_non_nullable
-              as bool,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -657,7 +703,11 @@ abstract class _$$CommentModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id, int qnaId, String writerId, String description, bool remove});
+      {int id,
+      String userId,
+      int qnaId,
+      String description,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -672,32 +722,32 @@ class __$$CommentModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? userId = null,
     Object? qnaId = null,
-    Object? writerId = null,
     Object? description = null,
-    Object? remove = null,
+    Object? createdAt = null,
   }) {
     return _then(_$CommentModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
       qnaId: null == qnaId
           ? _value.qnaId
           : qnaId // ignore: cast_nullable_to_non_nullable
               as int,
-      writerId: null == writerId
-          ? _value.writerId
-          : writerId // ignore: cast_nullable_to_non_nullable
-              as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      remove: null == remove
-          ? _value.remove
-          : remove // ignore: cast_nullable_to_non_nullable
-              as bool,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -707,10 +757,10 @@ class __$$CommentModelImplCopyWithImpl<$Res>
 class _$CommentModelImpl implements _CommentModel {
   const _$CommentModelImpl(
       {required this.id,
+      required this.userId,
       required this.qnaId,
-      required this.writerId,
       required this.description,
-      required this.remove});
+      required this.createdAt});
 
   factory _$CommentModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CommentModelImplFromJson(json);
@@ -718,17 +768,17 @@ class _$CommentModelImpl implements _CommentModel {
   @override
   final int id;
   @override
-  final int qnaId;
+  final String userId;
   @override
-  final String writerId;
+  final int qnaId;
   @override
   final String description;
   @override
-  final bool remove;
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'CommentModel(id: $id, qnaId: $qnaId, writerId: $writerId, description: $description, remove: $remove)';
+    return 'CommentModel(id: $id, userId: $userId, qnaId: $qnaId, description: $description, createdAt: $createdAt)';
   }
 
   @override
@@ -737,18 +787,18 @@ class _$CommentModelImpl implements _CommentModel {
         (other.runtimeType == runtimeType &&
             other is _$CommentModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.qnaId, qnaId) || other.qnaId == qnaId) &&
-            (identical(other.writerId, writerId) ||
-                other.writerId == writerId) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.remove, remove) || other.remove == remove));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, qnaId, writerId, description, remove);
+      Object.hash(runtimeType, id, userId, qnaId, description, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -767,10 +817,10 @@ class _$CommentModelImpl implements _CommentModel {
 abstract class _CommentModel implements CommentModel {
   const factory _CommentModel(
       {required final int id,
+      required final String userId,
       required final int qnaId,
-      required final String writerId,
       required final String description,
-      required final bool remove}) = _$CommentModelImpl;
+      required final DateTime createdAt}) = _$CommentModelImpl;
 
   factory _CommentModel.fromJson(Map<String, dynamic> json) =
       _$CommentModelImpl.fromJson;
@@ -778,15 +828,150 @@ abstract class _CommentModel implements CommentModel {
   @override
   int get id;
   @override
-  int get qnaId;
+  String get userId;
   @override
-  String get writerId;
+  int get qnaId;
   @override
   String get description;
   @override
-  bool get remove;
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$CommentModelImplCopyWith<_$CommentModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+LikeModel _$LikeModelFromJson(Map<String, dynamic> json) {
+  return _LikeModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LikeModel {
+  String get userId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $LikeModelCopyWith<LikeModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LikeModelCopyWith<$Res> {
+  factory $LikeModelCopyWith(LikeModel value, $Res Function(LikeModel) then) =
+      _$LikeModelCopyWithImpl<$Res, LikeModel>;
+  @useResult
+  $Res call({String userId});
+}
+
+/// @nodoc
+class _$LikeModelCopyWithImpl<$Res, $Val extends LikeModel>
+    implements $LikeModelCopyWith<$Res> {
+  _$LikeModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+  }) {
+    return _then(_value.copyWith(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LikeModelImplCopyWith<$Res>
+    implements $LikeModelCopyWith<$Res> {
+  factory _$$LikeModelImplCopyWith(
+          _$LikeModelImpl value, $Res Function(_$LikeModelImpl) then) =
+      __$$LikeModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String userId});
+}
+
+/// @nodoc
+class __$$LikeModelImplCopyWithImpl<$Res>
+    extends _$LikeModelCopyWithImpl<$Res, _$LikeModelImpl>
+    implements _$$LikeModelImplCopyWith<$Res> {
+  __$$LikeModelImplCopyWithImpl(
+      _$LikeModelImpl _value, $Res Function(_$LikeModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+  }) {
+    return _then(_$LikeModelImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LikeModelImpl implements _LikeModel {
+  _$LikeModelImpl({required this.userId});
+
+  factory _$LikeModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LikeModelImplFromJson(json);
+
+  @override
+  final String userId;
+
+  @override
+  String toString() {
+    return 'LikeModel(userId: $userId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LikeModelImpl &&
+            (identical(other.userId, userId) || other.userId == userId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LikeModelImplCopyWith<_$LikeModelImpl> get copyWith =>
+      __$$LikeModelImplCopyWithImpl<_$LikeModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LikeModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LikeModel implements LikeModel {
+  factory _LikeModel({required final String userId}) = _$LikeModelImpl;
+
+  factory _LikeModel.fromJson(Map<String, dynamic> json) =
+      _$LikeModelImpl.fromJson;
+
+  @override
+  String get userId;
+  @override
+  @JsonKey(ignore: true)
+  _$$LikeModelImplCopyWith<_$LikeModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

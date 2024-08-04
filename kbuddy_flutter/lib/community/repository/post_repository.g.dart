@@ -19,9 +19,15 @@ class _PostRepository implements PostRepository {
   String? baseUrl;
 
   @override
-  Future<PaginationResponse> fetchItems({int? page}) async {
+  Future<PaginationResponse> fetchItems({
+    int? page,
+    int? pageSize,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'page': page};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'page_size': pageSize,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -33,7 +39,7 @@ class _PostRepository implements PostRepository {
     )
             .compose(
               _dio.options,
-              '/qna/list',
+              '/qna/',
               queryParameters: queryParameters,
               data: _data,
             )

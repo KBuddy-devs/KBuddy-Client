@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kbuddy_flutter/auth/view/login_screen.dart';
 import 'package:kbuddy_flutter/auth/view/reset_password_screen.dart';
 import 'package:kbuddy_flutter/auth/view/signup_screen.dart';
+import 'package:kbuddy_flutter/community/view/post_list_page.dart';
 
 import '../../auth/view/confirm_screen.dart';
 import '../../auth/view/reset_password_confirm_screen.dart';
@@ -16,8 +17,15 @@ class Routes {
   static const login = '/login';
   static const resetPassword = '/resetPassword';
   static const resetPasswordConfirm = '/resetPasswordConfirm';
+  static const pagination = '/pagination';
 
-  static List<GoRoute> get routes => [
+  static List<GoRoute> get routes =>
+      [
+        GoRoute(
+          path: '/pagination',
+          name: 'pagination',
+          builder: (context, state) => const PostListPage(),
+        ),
         GoRoute(
           path: '/',
           name: 'root',
