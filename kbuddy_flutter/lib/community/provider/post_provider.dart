@@ -16,7 +16,7 @@ final postProvider =
 class PostNotifier extends StateNotifier<PaginationState> {
   final PostRepository? _repository;
   int _currentPage = 1;
-  final int _pageSize = 2;
+  final int _pageSize = 9;
   PostNotifier(this._repository) : super(const PaginationState.initial()){
     fetchItems();
   }
