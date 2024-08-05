@@ -64,45 +64,48 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.zero, // 카드 간의 기본 마진을 없앱니다.
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero, // 모서리를 둥글게 하지 않습니다.
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            leading: CircleAvatar(
-              child: Icon(Icons.person, color: Colors.grey),
+    return GestureDetector(
+      onTap: (){},
+      child: Card(
+        margin: EdgeInsets.zero, // 카드 간의 기본 마진을 없앱니다.
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero, // 모서리를 둥글게 하지 않습니다.
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                child: Icon(Icons.person, color: Colors.grey),
+              ),
+              title: Text('NO Author'),
+              subtitle: Text('No Description'), //DateTime 형태를 변환해야 한다.
             ),
-            title: Text('NO Author'),
-            subtitle: Text('No Description'), //DateTime 형태를 변환해야 한다.
-          ),
-          Padding(
-              padding: const EdgeInsets.only(left: 16.0), // 텍스트에 좌측 마진 추가
-              child: FlexText(
-                content: post.title ?? 'NO Title',
-                textStyle: title300Medium,
-              )),
-          Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
-              // 텍스트에 좌측 마진 추가
-              child: FlexText(
-                content: post.description ?? 'NO SubTitle',
-                textStyle: body200Light,
-              )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(icon: Icon(Icons.favorite), onPressed: () {}),
-              Text('${post.likeCount}'),
-              IconButton(icon: Icon(Icons.comment), onPressed: () {}),
-              Text('${post.comments.length}'),
-              IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
-            ],
-          )
-        ],
+            Padding(
+                padding: const EdgeInsets.only(left: 16.0), // 텍스트에 좌측 마진 추가
+                child: FlexText(
+                  content: post.title ?? 'NO Title',
+                  textStyle: title300Medium,
+                )),
+            Padding(
+                padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+                // 텍스트에 좌측 마진 추가
+                child: FlexText(
+                  content: post.description ?? 'NO SubTitle',
+                  textStyle: body200Light,
+                )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(icon: Icon(Icons.favorite), onPressed: () {}),
+                Text('${post.likeCount}'),
+                IconButton(icon: Icon(Icons.comment), onPressed: () {}),
+                Text('${post.comments.length}'),
+                IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
+              ],
+            )
+          ],
+        ),
       ),
     );
     throw UnimplementedError();
