@@ -55,13 +55,6 @@ class Custominterceptor extends Interceptor {
             'CourseMate/1.0.0 (Android 10; SM-G950U Build/R16NW) Flutter/2.2.1 Dart/2.13.0'
       });
     }
-    // 하드코딩된 토큰을 추가하는 부분.
-    //   options.headers.addAll({
-    //   'Content-Type': 'application/json',
-    //   'Accept': 'application/json',
-    //   'Authorization': 'Bearer your_access_token_here', // 여기서 하드코딩된 토큰을 넣습니다.
-    //   'User-Agent': 'asfd'
-    // });
     return super.onRequest(options, handler);
   }
 

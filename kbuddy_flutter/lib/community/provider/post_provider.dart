@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kbuddy_flutter/community/provider/pagination_state.dart';
 
 import '../../common/utils/logger.dart';
+import '../model/post_model.dart';
 import '../repository/post_repository.dart';
 
 final postProvider =
@@ -16,23 +17,44 @@ final postProvider =
 class PostNotifier extends StateNotifier<PaginationState> {
   final PostRepository? _repository;
   int _currentPage = 1;
-  final int _pageSize = 9;
+  final int _pageSize = 10;
+  List<PostModel> _cachedItems = [];
+  bool _hasReachedMax = false;
+
   PostNotifier(this._repository) : super(const PaginationState.initial()){
     fetchItems();
   }
 
-  Future<void> fetchItems() async {
+  Future<void> fetchItems({bool refresh = false}) async {
     logger.i('post_provider: fetchItems 실행');
-    if(state is Loading) return;
+    if(state is Loading && !refresh) return;
+    if(_hasReachedMax && !refresh) return;
+
     try{
-      state = const PaginationState.loading();
+      // if (!refresh && _cachedItems.isNotEmpty) {
+      //   state = PaginationState.data(_cachedItems, false);
+      // } else {
+      //   state = const PaginationState.loading();
+      // }
+      if(!refresh && _cachedItems.isNotEmpty){
+        state = PaginationState.loading();
+      }
       logger.i('post_provider: -> loading()');
       if (_repository != null) {
         final response = await _repository!.fetchItems(page: _currentPage, pageSize: _pageSize);
         logger.i('post_provider: -> data()'
             'data: $response');
-        _currentPage++;
-        state = PaginationState.data(response.message.results, response.message.next == null);
+        List<PostModel> newItems = response.message.results;
+        if (refresh) {
+          _cachedItems = newItems;
+          _currentPage = 2;
+        } else {
+          _cachedItems.addAll(newItems);
+          _currentPage++;
+        }
+        _hasReachedMax = response.message.next == null;
+
+        state = PaginationState.data(_cachedItems, _hasReachedMax);
       } else {
         state = const PaginationState.error("Repository is null");
       }
@@ -40,7 +62,12 @@ class PostNotifier extends StateNotifier<PaginationState> {
       state = PaginationState.error(e.toString());
     }
   }
+  void refreshItems(){
+    fetchItems(refresh: true);
+  }
+  List<PostModel> get cachedItems => _cachedItems;
 }
+
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 //
 // // 상태 관리용 provider 정의
