@@ -146,6 +146,25 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     }
   }
 
+  Future<bool> firebaseLogin(dynamic resp) async {
+    try {
+      // logger.e('id : $id, password : $password');
+      state = UserModelLoading();
+
+      await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
+      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
+      // 그리고 내 정보인 UserModel을 받아온다.
+      final userRes = await repo.getMe();
+      state = userRes;
+      return true;
+    } catch (e) {
+      state = null;
+      logger.e('error : $e');
+
+      return false;
+    }
+  }
+
   Future<void> logout() async {
     state = null;
 

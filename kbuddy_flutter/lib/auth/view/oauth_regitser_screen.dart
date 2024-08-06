@@ -14,10 +14,12 @@ import '../provider/signup_viewModel.dart';
 
 class OauthRegitserScreen extends ConsumerStatefulWidget {
   final String email;
+  final bool isGoogle;
 
   const OauthRegitserScreen({
     super.key,
     required this.email,
+    this.isGoogle = false,
   });
 
   @override
@@ -196,8 +198,8 @@ class _OauthRegitserScreenState extends ConsumerState<OauthRegitserScreen> {
               onPressed: () async {
                 await ref.read(userMeProvider.notifier).kakaoRegister(
                     OauthRegisterModel(
-                        email: widget.email!,
-                        oauth: "KAKAO",
+                        email: widget.email,
+                        oauth: widget.isGoogle ? "GOOGLE" : "KAKAO",
                         userId: userIdController.text,
                         country: state.country,
                         firstName: firstNameController.text,
