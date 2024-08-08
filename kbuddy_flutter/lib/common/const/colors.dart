@@ -12,8 +12,8 @@ const LIME_800 = Color(0xff30FF21);
 const LIME_900 = Color(0xff2CEC1F);
 const LIME_1000 = Color(0xff29D71C);
 
-const WHITE = Color(0xffffffff);
-const BLACK = Color(0x00000000);
+const WHITE = Colors.white;
+const BLACK = Colors.black;
 
 // LIGHTGRAY
 const LIGHTGRAY_100 = Color(0xffF4F4F4);
@@ -31,11 +31,13 @@ const DARKGRAY_700 = Color(0xffd1d1d1);
 const DARKGRAY_800 = Color(0xffebebeb);
 
 // GREEN
+const GREEN_100 = Color(0xffCEF8E0);
 const GREEN_900 = Color(0xff007a4d);
 const GREEN_1000 = Color(0xff00653e);
 const GREEN_1100 = Color(0xff005132);
 
 // RED
+const RED_100 = Color(0xffFFEBE7);
 const RED_900 = Color(0xffd31510);
 const RED_1000 = Color(0xffb40000);
 const RED_1100 = Color(0xff930000);

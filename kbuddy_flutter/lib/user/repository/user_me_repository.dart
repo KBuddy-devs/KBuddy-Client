@@ -20,7 +20,7 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
 abstract class UserMeRepository {
   factory UserMeRepository(Dio dio, {String baseUrl}) = _UserMeRepository;
 
-  @GET('/')
+  @GET('/user')
   @Headers({
     'accessToken': 'true',
   })

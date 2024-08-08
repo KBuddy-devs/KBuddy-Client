@@ -1,8 +1,22 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
+package="com.example.kbuddy_flutter">
     <application
         android:label="kbuddy_flutter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <activity 
+        android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
+        android:exported="true">
+        <intent-filter android:label="flutter_web_auth">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+    
+            <!-- Redirect URI, "kakao${YOUR_NATIVE_APP_KEY}://oauth" 형식 -->
+            <data android:scheme="kakaobafde7003969c3c49c0f935b8ae397c3" android:host="oauth"/>
+            
+        </intent-filter>
+    </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -24,7 +38,9 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            
         </activity>
+        
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
