@@ -17,6 +17,7 @@ final postProvider =
 class PostNotifier extends StateNotifier<PaginationState> {
   final PostRepository? _repository;
   int _currentPage = 1;
+  String? _lastId; //마지막으로 로드된 항목 ID
   final int _pageSize = 10;
   List<PostModel> _cachedItems = [];
   bool _hasReachedMax = false;
@@ -41,17 +42,21 @@ class PostNotifier extends StateNotifier<PaginationState> {
       }
       logger.i('post_provider: -> loading()');
       if (_repository != null) {
+        // 새로운 API 적용 시
+        // final response = await _repository!.fetchItems(id: _lastId, size: _pageSize);
         final response = await _repository!.fetchItems(page: _currentPage, pageSize: _pageSize);
         logger.i('post_provider: -> data()'
             'data: $response');
         List<PostModel> newItems = response.message.results;
         if (refresh) {
           _cachedItems = newItems;
-          _currentPage = 2;
+          _currentPage = 2; // 변경된 API 사용 시에 필요 X
         } else {
           _cachedItems.addAll(newItems);
-          _currentPage++;
+          _currentPage++; // 변경된 API 사용 시에 필요 X
         }
+        // _lastId = response.message.nextId != -1 ? response.message.nextId : null;
+        // _hasReachedMax = response.message.nextId == -1;
         _hasReachedMax = response.message.next == null;
 
         state = PaginationState.data(_cachedItems, _hasReachedMax);
@@ -63,6 +68,8 @@ class PostNotifier extends StateNotifier<PaginationState> {
     }
   }
   void refreshItems(){
+    // _lastId = null;
+    // _hasReachedMax = false;
     fetchItems(refresh: true);
   }
   List<PostModel> get cachedItems => _cachedItems;
