@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "939625873722",
+    "project_id": "kbuddy-e9a58",
+    "storage_bucket": "kbuddy-e9a58.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939625873722:android:1f558a303d5409d1135003",
+        "android_client_info": {
+          "package_name": "com.coursemate.kbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939625873722-nvejuofees2v3pr66ra4hl92n4lsqh2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7fBWsNi7jquHKJKjmdm_WDeFjk9dm3iQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939625873722-nvejuofees2v3pr66ra4hl92n4lsqh2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

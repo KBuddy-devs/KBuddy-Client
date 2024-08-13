@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'reset_password_repository.dart';
+part of 'oauth_firebase_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'reset_password_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _ResetPasswordRepository implements ResetPasswordRepository {
-  _ResetPasswordRepository(
+class _OauthFirebaseRepository implements OauthFirebaseRepository {
+  _OauthFirebaseRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -19,22 +19,22 @@ class _ResetPasswordRepository implements ResetPasswordRepository {
   String? baseUrl;
 
   @override
-  Future<DefaultResponseModel3<String>> sendPasswordResetEmail(
-      {required EmailModel emailModel}) async {
+  Future<DefaultResponseModel2<dynamic>> oauthCheck(
+      {required OauthCheckModel2 oauthCheckModel2}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(emailModel.toJson());
+    _data.addAll(oauthCheckModel2.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DefaultResponseModel3<String>>(Options(
+        _setStreamType<DefaultResponseModel2<dynamic>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/user/auth/email/send',
+              '/user/auth/oauth/check',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -43,30 +43,27 @@ class _ResetPasswordRepository implements ResetPasswordRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = DefaultResponseModel3<String>.fromJson(
-      _result.data!,
-      (json) => json as String,
-    );
+    final value = DefaultResponseModel2<dynamic>.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DefaultResponseModel3<EmailConfirmModel>> sendNewPassword(
-      {required ResetPasswordModel resetPasswordModel}) async {
+  Future<DefaultResponseModel3<LoginResponse>> oauthLogin(
+      {required OauthLoginModel oauthLoginModel}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(resetPasswordModel.toJson());
+    _data.addAll(oauthLoginModel.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DefaultResponseModel3<EmailConfirmModel>>(Options(
+        _setStreamType<DefaultResponseModel3<LoginResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/user/auth/password',
+              '/user/auth/oauth/login',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -75,9 +72,9 @@ class _ResetPasswordRepository implements ResetPasswordRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = DefaultResponseModel3<EmailConfirmModel>.fromJson(
+    final value = DefaultResponseModel3<LoginResponse>.fromJson(
       _result.data!,
-      (json) => EmailConfirmModel.fromJson(json as Map<String, dynamic>),
+      (json) => LoginResponse.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }

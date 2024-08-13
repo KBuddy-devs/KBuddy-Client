@@ -22,7 +22,7 @@ class ResetPassword extends _$ResetPassword {
     logger.e('emailmodel : ${emailModel.toJson().toString()}');
     final resp =
         await repository.sendPasswordResetEmail(emailModel: emailModel);
-    state = resp;
+    // state = resp.message;
     logger.e('state : $state');
     // return state;
   }
@@ -32,7 +32,7 @@ class ResetPassword extends _$ResetPassword {
     logger.e('resetPasswordModel : ${resetPasswordModel.toJson().toString()}');
     final resp = await repository.sendNewPassword(
         resetPasswordModel: resetPasswordModel);
-    state = resp;
+    state = resp.message;
     logger.e('state : $state');
     // return state;
   }

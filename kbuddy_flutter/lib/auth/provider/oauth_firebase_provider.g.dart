@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'reset_password_provider.dart';
+part of 'oauth_firebase_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$resetPasswordHash() => r'611fd58a6f2a06333d7cac015c8df68338a2a5e4';
+String _$oauthFirebaseHash() => r'00e46c294f892ac7a83afbd702a1a3b80d82b721';
 
-/// See also [ResetPassword].
-@ProviderFor(ResetPassword)
-final resetPasswordProvider =
-    AutoDisposeNotifierProvider<ResetPassword, EmailConfirmModel?>.internal(
-  ResetPassword.new,
-  name: r'resetPasswordProvider',
+/// See also [OauthFirebase].
+@ProviderFor(OauthFirebase)
+final oauthFirebaseProvider =
+    AutoDisposeNotifierProvider<OauthFirebase, OauthRegisterModel?>.internal(
+  OauthFirebase.new,
+  name: r'oauthFirebaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$resetPasswordHash,
+      : _$oauthFirebaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ResetPassword = AutoDisposeNotifier<EmailConfirmModel?>;
+typedef _$OauthFirebase = AutoDisposeNotifier<OauthRegisterModel?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

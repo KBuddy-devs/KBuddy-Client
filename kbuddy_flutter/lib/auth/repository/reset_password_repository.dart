@@ -7,6 +7,7 @@ import 'package:retrofit/retrofit.dart';
 import '../../common/const/data.dart';
 import '../../common/dio/dio.dart';
 import '../../common/model/base_response_model.dart';
+import '../../common/model/base_response_model2.dart';
 
 part 'reset_password_repository.g.dart';
 
@@ -24,14 +25,15 @@ abstract class ResetPasswordRepository {
   @POST('/user/auth/email/send')
   // @Headers({'accessToken': 'false'})
   // Future<EmailConfirmModel> sendPasswordResetEmail({
-  Future<EmailConfirmModel> sendPasswordResetEmail({
+  // Future<DefaultResponseModel3<EmailConfirmModel>> sendPasswordResetEmail({
+  Future<DefaultResponseModel3<String>> sendPasswordResetEmail({
     @Body() required EmailModel emailModel,
   });
 
   @POST('/user/auth/password')
   // @Headers({'accessToken': 'false'})
   // Future<EmailConfirmModel> sendPasswordResetEmail({
-  Future<EmailConfirmModel> sendNewPassword({
+  Future<DefaultResponseModel3<EmailConfirmModel>> sendNewPassword({
     @Body() required ResetPasswordModel resetPasswordModel,
   });
 }

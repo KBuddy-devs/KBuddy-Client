@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kbuddy_flutter/auth/provider/email_provider.dart';
+import 'package:kbuddy_flutter/auth/provider/oauth_firebase_provider.dart';
+import 'package:kbuddy_flutter/auth/view/reset_password_complete_screen.dart';
+import 'package:kbuddy_flutter/auth/view/reset_password_confirm_screen.dart';
 import 'package:kbuddy_flutter/auth/view/reset_password_screen.dart';
 import 'package:kbuddy_flutter/common/component/login_button.dart';
 import 'package:kbuddy_flutter/common/component/text.dart';
@@ -258,23 +263,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             height: 16,
                                           ),
                                           LoginButton(
-                                            name: "Continue",
-                                            function: () async {
-                                              if (emailState.isLoading) return;
-                                              await emailNotifier.checkEmail(
-                                                  createController.text);
-                                              if (!emailState.isEmailExist) {
-                                                await emailNotifier.sendCode(
+                                              name: "Continue",
+                                              function: () async {
+                                                if (emailState.isLoading)
+                                                  return;
+                                                await emailNotifier.checkEmail(
                                                     createController.text);
                                                 if (context.mounted) {
                                                   print(
                                                       '코드: ${emailState.verificationCode}');
                                                   context.go('/confirm');
                                                 }
-                                              } else {}
-                                            },
-                                            // function: handleEmailVerification,
-                                          )
+                                              }),
+
+                                          // function: handleEmailVerification,
                                         ],
                                       ),
                                     )
@@ -293,20 +295,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           color: Colors.white,
                           function: () async {
                             try {
-                              setState(() {
-                                isLoading = true;
-                              });
                               logger.i("z");
                               await ref
                                   .read(userMeProvider.notifier)
                                   .kakaoLogin(context);
-                              setState(() {
-                                isLoading = false;
-                              });
                             } catch (error) {
-                              setState(() {
-                                isLoading = false;
-                              });
                               print('카카오톡으로 로그인 실패 $error');
                             }
                           }),
@@ -318,8 +311,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           name: "Continue with Google",
                           isImage: true,
                           color: Colors.white,
-                          function: () {
+                          function: () async {
                             logger.i("Google");
+                            await ref
+                                .read(oauthFirebaseProvider.notifier)
+                                .signInWithGoogle(context);
                           }),
                       const SizedBox(
                         height: 12,
@@ -335,7 +331,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ],
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),

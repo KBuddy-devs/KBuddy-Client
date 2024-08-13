@@ -46,6 +46,7 @@ class AuthRepository {
   }
 
   Future<User> kakaoHandler() async {
+    logger.i('kakaohandler start');
     final isInstalled = await isKakaoTalkInstalled();
     if (isInstalled) {
       //설치되어 있다면
@@ -62,6 +63,7 @@ class AuthRepository {
       //카카오톡 설치되어 있지 않다면
       try {
         //카카오톡 계정으로 로그인 시도
+        logger.i('loginwith kakaoaccount start');
         OAuthToken token =
             await UserApi.instance.loginWithKakaoAccount(); //카카오톡 계정 로그인
       } catch (error) {
