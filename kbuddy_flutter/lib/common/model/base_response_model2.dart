@@ -66,3 +66,29 @@ class DefaultResponseModel2<T> {
 //     );
 //   }
 // }
+
+class DefaultResponseModel3<T> {
+  final String timestamp;
+  final int status;
+  final String code;
+  final String path;
+  final T message;
+  DefaultResponseModel3({
+    required this.timestamp,
+    required this.status,
+    required this.code,
+    required this.path,
+    required this.message,
+  });
+  factory DefaultResponseModel3.fromJson(Map<String, dynamic> json,
+      T Function(Map<String, dynamic> json) fromJsonT) {
+    return DefaultResponseModel3<T>(
+      timestamp: json['timestamp'] as String,
+      status: json['status'] as int,
+      code: json['code'] as String,
+      path: json['path'] as String,
+      message: json['message'] as T,
+    );
+  }
+  // Map<String, dynamic> toJson() => _$DefaultResponseModel3ToJson(this);
+}

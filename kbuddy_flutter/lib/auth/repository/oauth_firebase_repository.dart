@@ -30,7 +30,8 @@ abstract class OauthFirebaseRepository {
   });
 
   @POST('/user/auth/oauth/login')
-  Future<LoginResponse> oauthLogin({
+  // Future<LoginResponse> oauthLogin({
+  Future<DefaultResponseModel3<LoginResponse>> oauthLogin({
     @Body() required OauthLoginModel oauthLoginModel,
   });
 }

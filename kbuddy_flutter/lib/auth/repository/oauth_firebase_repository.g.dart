@@ -48,15 +48,15 @@ class _OauthFirebaseRepository implements OauthFirebaseRepository {
   }
 
   @override
-  Future<LoginResponse> oauthLogin(
+  Future<DefaultResponseModel3<LoginResponse>> oauthLogin(
       {required OauthLoginModel oauthLoginModel}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(oauthLoginModel.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DefaultResponseModel3<LoginResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -72,7 +72,10 @@ class _OauthFirebaseRepository implements OauthFirebaseRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = LoginResponse.fromJson(_result.data!);
+    final value = DefaultResponseModel3<LoginResponse>.fromJson(
+      _result.data!,
+      (json) => LoginResponse.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 
